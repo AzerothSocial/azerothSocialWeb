@@ -61,9 +61,8 @@ export default function LivesClientView({
     if (platform === 'twitch') {
       const channel = url.split('/').pop()?.split('?')[0]
       if (channel) {
-        // Use window.location.hostname in client to support both localhost and Netlify
-        const parent = typeof window !== 'undefined' ? window.location.hostname : 'localhost'
-        return `https://player.twitch.tv/?channel=${channel}&parent=${parent}`
+        // Use both localhost (for dev) and azerothsocial.netlify.app (for prod) to avoid Next.js SSR Hydration mismatch
+        return `https://player.twitch.tv/?channel=${channel}&parent=localhost&parent=azerothsocial.netlify.app`
       }
     }
     if (platform === 'youtube') {
