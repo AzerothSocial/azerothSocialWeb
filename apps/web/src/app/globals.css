@@ -1,0 +1,1159 @@
+@import "tailwindcss";
+
+/* Azeroth Social Design System - Official WoW & Dragonflight UI Theme */
+:root {
+  --bg-main: #0B0E14;
+  --bg-card: #141923;
+  --bg-card-hover: #1C2333;
+  --bg-sidebar: #0F131C;
+  --border-color: #263045;
+  --border-gold: #C89B3C;
+
+  --text-primary: #F0F4F8;
+  --text-secondary: #94A3B8;
+  --text-gold: #F5D166;
+
+  --accent-gold: #C89B3C;
+  --accent-gold-hover: #E0AF47;
+  --accent-blue: #3B82F6;
+
+  /* WoW Class Colors - Official Color Scheme */
+  --color-dk: #C41F3B;
+  --color-dh: #7104c4;
+  --color-druid: #FF7D0A;
+  --color-evoker: #33937F;
+  --color-hunter: #ABD473;
+  --color-mage: #40C7EB;
+  --color-monk: #00FF96;
+  --color-paladin: #F58CBA;
+  --color-priest: #FFFFFF;
+  --color-rogue: #FFF569;
+  --color-shaman: #0070DE;
+  --color-warlock: #8787ED;
+  --color-warrior: #C79C5E;
+
+  /* Quality Colors */
+  --quality-epic: #A335EE;
+  --quality-legendary: #FF8000;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  --shadow-main: 0 10px 30px rgba(0, 0, 0, 0.5);
+  --shadow-gold: 0 0 20px rgba(200, 155, 60, 0.2);
+}
+
+/* Global Modal Overlay (Fixed Viewport Centered Pop-up) */
+.wow-modal-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background-color: rgba(11, 14, 20, 0.88) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 20px !important;
+  z-index: 99999 !important;
+  box-sizing: border-box !important;
+}
+
+.wow-modal-content {
+  background-color: #141923 !important;
+  border: 2px solid #C89B3C !important;
+  border-radius: 20px !important;
+  padding: 24px 28px !important;
+  width: 100% !important;
+  max-width: 740px !important;
+  max-height: 92vh !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  box-shadow: 0 0 60px rgba(200, 155, 60, 0.35) !important;
+  position: relative !important;
+  z-index: 100000 !important;
+  box-sizing: border-box !important;
+}
+
+.wow-modal-content::-webkit-scrollbar {
+  display: none !important;
+}
+
+/* Guild Announcement Cards (Explicit & Bulletproof Spacing) */
+.guild-card {
+  background: linear-gradient(180deg, #141923 0%, #0E121B 100%) !important;
+  border: 1px solid #263045 !important;
+  border-radius: 16px !important;
+  padding: 24px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 20px !important;
+  transition: all 0.2s ease-in-out !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4) !important;
+  box-sizing: border-box !important;
+}
+
+.guild-card:hover {
+  border-color: rgba(200, 155, 60, 0.6) !important;
+  box-shadow: 0 0 25px rgba(200, 155, 60, 0.18) !important;
+}
+
+.guild-card-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 16px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.guild-faction-badge {
+  width: 48px !important;
+  height: 48px !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
+  border-radius: 12px !important;
+  background-color: #0B0E14 !important;
+  border: 1px solid #263045 !important;
+  padding: 4px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.guild-faction-badge img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+}
+
+.guild-card-body {
+  background-color: rgba(11, 14, 20, 0.85) !important;
+  border: 1px solid #263045 !important;
+  border-radius: 12px !important;
+  padding: 16px 20px !important;
+  font-size: 0.9rem !important;
+  line-height: 1.6 !important;
+  color: #E2E8F0 !important;
+  box-sizing: border-box !important;
+}
+
+.guild-card-footer {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding-top: 16px !important;
+  border-top: 1px solid rgba(38, 48, 69, 0.7) !important;
+  gap: 12px !important;
+  box-sizing: border-box !important;
+}
+
+.role-tag {
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  font-weight: 700 !important;
+  background-color: #0B0E14 !important;
+  color: #F5D166 !important;
+  padding: 5px 11px !important;
+  border: 1px solid rgba(200, 155, 60, 0.4) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  line-height: 1.2 !important;
+  box-sizing: border-box !important;
+}
+
+.announcements-count-badge {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  background-color: #0B0E14 !important;
+  color: #F5D166 !important;
+  border: 1px solid rgba(200, 155, 60, 0.4) !important;
+  padding: 6px 14px !important;
+  border-radius: 10px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+  flex-shrink: 0 !important;
+  line-height: 1.2 !important;
+  box-sizing: border-box !important;
+}
+
+.guild-feed-header-card {
+  background: linear-gradient(90deg, #141923 0%, #161D2B 50%, #141923 100%) !important;
+  border: 1px solid #263045 !important;
+  border-radius: 16px !important;
+  padding: 20px 24px !important;
+  margin-bottom: 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3) !important;
+  box-sizing: border-box !important;
+}
+
+.apply-form-group {
+  margin-top: 24px !important;
+  display: block !important;
+}
+
+.apply-form-group label {
+  display: block !important;
+  margin-bottom: 10px !important;
+}
+
+.btn-apply-recruitment {
+  background-color: #C89B3C !important;
+  color: #000000 !important;
+  font-weight: 700 !important;
+  font-size: 0.8rem !important;
+  padding: 10px 22px !important;
+  border-radius: 12px !important;
+  border: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  line-height: 1.3 !important;
+  box-shadow: 0 4px 12px rgba(200, 155, 60, 0.3) !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease-in-out !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+}
+
+.btn-apply-recruitment:hover {
+  background-color: #D8AB4C !important;
+  transform: translateY(-1px) scale(1.02) !important;
+  box-shadow: 0 6px 16px rgba(200, 155, 60, 0.4) !important;
+}
+
+/* ==========================================
+   BARRA DE ROLAGEM CUSTOMIZADA WOW (DARK & GOLD)
+   ========================================== */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #C89B3C #0B0E14;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B0E14;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #C89B3C 0%, #8A6820 100%);
+  border-radius: 10px;
+  border: 2px solid #0B0E14;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #F5D166 0%, #C89B3C 100%);
+  box-shadow: 0 0 10px rgba(245, 209, 102, 0.5);
+}
+
+::-webkit-scrollbar-corner {
+  background: #0B0E14;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-inter), 'Inter', sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* Reset FontAwesome SVG Backgrounds */
+svg.svg-inline--fa,
+i.fa-solid,
+i.fa-regular {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* ==========================================
+   ELEMENTOS DE REFEÊNCIAS DO WOW (Dragonflight UI)
+   ========================================== */
+
+/* Moldura Circular com Aro Dourado (Unit Frame Portrait) */
+.wow-unit-portrait {
+  position: relative;
+  display: inline-block;
+}
+
+.wow-portrait-img {
+  border-radius: 50%;
+  border: 3px solid var(--accent-gold);
+  box-shadow: 0 0 15px rgba(200, 155, 60, 0.4);
+  object-fit: cover;
+}
+
+/* Barra de Vida / Recurso WoW Castbar (Verde Vida / Azul Mana) */
+.wow-hp-bar {
+  height: 8px;
+  background: linear-gradient(90deg, #10B981 0%, #047857 100%);
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+}
+
+.wow-mana-bar {
+  height: 6px;
+  background: linear-gradient(90deg, #3B82F6 0%, #1D4ED8 100%);
+  border-radius: 4px;
+}
+
+/* Botões WoW Castbar Glow (Hearthstone / Disintegrate Style) */
+.wow-btn-gold {
+  background: linear-gradient(180deg, #D4AF37 0%, #A67C1E 100%);
+  color: #0B0E14;
+  border: 1px solid #FFE58F;
+  font-family: var(--font-cinzel), 'Cinzel', serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.wow-btn-gold:hover {
+  background: linear-gradient(180deg, #F0C43F 0%, #C89B3C 100%);
+  box-shadow: 0 0 20px rgba(200, 155, 60, 0.6);
+}
+
+/* Moldura de Ações / Action Slots */
+.wow-action-slot {
+  background-color: #0A0D14;
+  border: 2px solid #36455D;
+  border-radius: var(--radius-sm);
+  transition: border-color 0.2s ease;
+}
+
+.wow-action-slot:hover {
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 12px rgba(200, 155, 60, 0.3);
+}
+
+/* Header Navbar */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background-color: var(--bg-sidebar);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.logo {
+  font-family: var(--font-cinzel), 'Cinzel', serif;
+  font-size: 1.3rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.gold-text {
+  color: var(--accent-gold);
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
+  padding: 8px 14px;
+  border-radius: 20px;
+  width: 320px;
+}
+
+.search-bar input {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  margin-left: 8px;
+  width: 100%;
+  outline: none;
+  font-size: 0.9rem;
+}
+
+.nav-center {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-tab {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.nav-tab:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-card);
+}
+
+.nav-tab.active {
+  color: var(--accent-gold);
+  background-color: rgba(200, 155, 60, 0.1);
+  border: 1px solid rgba(200, 155, 60, 0.3);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.btn-addon-preview {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
+  color: #FFF;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-addon-preview:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.7);
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #10B981;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #10B981;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.4; }
+  50% { opacity: 1; }
+  100% { opacity: 0.4; }
+}
+
+.user-quick-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.avatar-sm {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--accent-gold);
+  object-fit: cover;
+}
+
+.avatar-md {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  object-fit: cover;
+}
+
+.avatar-lg {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 3px solid var(--accent-gold);
+  object-fit: cover;
+  margin-top: -36px;
+}
+
+.user-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: block;
+}
+
+.user-handle {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.app-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr 300px;
+  gap: 24px;
+  max-width: 1400px;
+  margin: 24px auto;
+  padding: 0 24px;
+}
+
+/* Sidebar Left */
+.user-card-widget {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.banner-bg {
+  height: 80px;
+  background: linear-gradient(135deg, #1E1B4B 0%, #311B92 50%, #4A148C 100%);
+}
+
+.widget-body {
+  padding: 0 16px 16px;
+  text-align: center;
+}
+
+.profile-name {
+  font-size: 1.1rem;
+  margin-top: 8px;
+}
+
+.verified-badge {
+  color: var(--accent-gold);
+  font-size: 0.9rem;
+}
+
+.profile-handle {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.profile-bio {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+}
+
+.main-char-box {
+  background-color: rgba(200, 155, 60, 0.08);
+  border: 1px solid rgba(200, 155, 60, 0.3);
+  border-radius: var(--radius-md);
+  padding: 10px;
+  text-align: left;
+  margin-bottom: 14px;
+}
+
+.main-tag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  letter-spacing: 0.5px;
+}
+
+.char-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.char-class-icon {
+  font-size: 1.5rem;
+}
+
+.char-name-lvl {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+/* Class color helpers (Portuguese & English) */
+.mage-color, .mago-color { color: var(--color-mage); }
+.warrior-color, .guerreiro-color { color: var(--color-warrior); }
+.rogue-color, .ladino-color { color: var(--color-rogue); }
+.priest-color, .sacerdote-color { color: var(--color-priest); }
+.hunter-color, .caçador-color, .cacador-color { color: var(--color-hunter); }
+.paladin-color, .paladino-color { color: var(--color-paladin); }
+.warlock-color, .bruxo-color { color: var(--color-warlock); }
+.dk-color, .death-knight-color, .cavaleiro-da-morte-color { color: var(--color-dk); }
+.dh-color, .demon-hunter-color, .caçador-de-demônios-color, .cacador-de-demonios-color { color: var(--color-dh); }
+.druid-color, .druida-color { color: var(--color-druid); }
+.evoker-color, .evocador-color, .convocador-color { color: var(--color-evoker); }
+.monk-color, .monge-color { color: var(--color-monk); }
+.shaman-color, .xamã-color, .xama-color { color: var(--color-shaman); }
+
+.char-sub {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.char-guild {
+  font-size: 0.72rem;
+  color: var(--accent-gold);
+}
+
+.stats-row {
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid var(--border-color);
+  padding-top: 12px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-val {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.stat-lbl {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+.side-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.menu-item:hover, .menu-item.active {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.menu-item.highlight-link {
+  color: #60A5FA;
+  background-color: rgba(59, 130, 246, 0.1);
+  border: 1px dashed rgba(59, 130, 246, 0.4);
+}
+
+/* Create Post Card */
+.create-post-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.creator-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.char-selector-input {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.post-input {
+  width: 100%;
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  color: var(--text-primary);
+  font-family: inherit;
+  resize: vertical;
+  min-height: 80px;
+  margin-bottom: 12px;
+  outline: none;
+}
+
+.creator-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.attach-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.attach-btn {
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.attach-btn:hover {
+  border-color: var(--accent-gold);
+  color: var(--text-primary);
+}
+
+.btn-primary {
+  background-color: var(--accent-gold);
+  color: #000;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-gold-hover);
+}
+
+/* Feed Filters */
+.feed-filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+.filter-btn {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.filter-btn.active {
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+  background-color: rgba(200, 155, 60, 0.1);
+}
+
+/* Posts Stream */
+.post-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.author-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.author-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.via-tag {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-left: 6px;
+}
+
+.post-time {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  display: block;
+}
+
+.post-body p {
+  margin-bottom: 14px;
+  font-size: 0.95rem;
+}
+
+/* WoW Achievement Card Component */
+.wow-achievement-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  box-shadow: var(--shadow-gold);
+}
+
+.achieve-icon {
+  font-size: 2rem;
+  background: rgba(200, 155, 60, 0.2);
+  padding: 8px;
+  border-radius: var(--radius-sm);
+}
+
+.achieve-title {
+  font-weight: 700;
+  color: var(--text-gold);
+  display: block;
+}
+
+.achieve-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  display: block;
+}
+
+.achieve-points {
+  font-size: 0.75rem;
+  color: #10B981;
+  font-weight: 600;
+}
+
+.post-footer {
+  display: flex;
+  gap: 16px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 14px;
+  margin-top: 14px;
+}
+
+.post-action-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.post-action-btn:hover {
+  color: var(--text-primary);
+}
+
+.post-action-btn.liked {
+  color: #EF4444;
+}
+
+.btn-primary-sm, .btn-secondary-sm {
+  padding: 6px 14px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-primary-sm {
+  background-color: var(--accent-gold);
+  color: #000;
+  border: none;
+}
+
+.btn-secondary-sm {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+/* Character Cards Grid */
+.characters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.character-card {
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  position: relative;
+}
+
+.character-card.is-main {
+  border-color: var(--accent-gold);
+  box-shadow: var(--shadow-gold);
+}
+
+.main-badge {
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  background-color: var(--accent-gold);
+  color: #000;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.char-card-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.char-spec {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.char-stats-mini {
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+}
+
+.rio-gold { color: #FF8000; }
+.rio-purple { color: #A335EE; }
+
+.char-privacy {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border-color);
+  padding-top: 6px;
+}
+
+/* Sidebar Right Widgets */
+.addon-status-card {
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.3) 0%, var(--bg-card) 100%);
+  border: 1px solid #3B82F6;
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.status-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 4px 0 10px;
+}
+
+.status-sync {
+  font-size: 0.75rem;
+  color: #10B981;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.online-indicator {
+  width: 8px;
+  height: 8px;
+  background-color: #10B981;
+  border-radius: 50%;
+}
+
+.btn-addon-shortcut {
+  display: block;
+  text-align: center;
+  background-color: #3B82F6;
+  color: #FFF;
+  text-decoration: none;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.widget-box {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.widget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.link-sm {
+  font-size: 0.75rem;
+  color: var(--accent-gold);
+  text-decoration: none;
+}
+
+.friends-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.friend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar-wrapper {
+  position: relative;
+}
+
+.avatar-wrapper img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.status-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--bg-card);
+}
+
+.status-dot.online { background-color: #10B981; }
+
+.friend-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: block;
+}
+
+.friend-playing {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  display: block;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .app-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ==========================================================================
+   Horde vs Alliance Side Backgrounds (Premium WOW Effect)
+   ========================================================================== */
+.dark-theme {
+  position: relative;
+}
+
+.dark-theme::before,
+.dark-theme::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  z-index: 0;
+  background-image: url('/images/horde-ally-background.jpg');
+  background-size: cover;
+  background-position: center top;
+  background-attachment: fixed;
+  pointer-events: none;
+  opacity: 0.6; /* Slight transparency so it blends elegantly with the dark theme */
+  transition: opacity 0.5s ease;
+}
+
+/* Left Side (Horde) */
+.dark-theme::before {
+  left: 0;
+  width: calc(50vw - 650px);
+  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
+  mask-image: linear-gradient(to right, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
+}
+
+/* Right Side (Alliance) */
+.dark-theme::after {
+  right: 0;
+  width: calc(50vw - 650px);
+  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
+  mask-image: linear-gradient(to left, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
+}
+
+/* Ensure the central layout sits above the background layers */
+.app-layout {
+  position: relative;
+  z-index: 10;
+}
