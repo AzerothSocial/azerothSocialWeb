@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Azeroth Social — A Rede Social de World of Warcraft</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="dark-theme">
+  <!-- Top Navigation Bar -->
+  <header class="top-nav">
+    <div class="nav-left">
+      <div class="logo">
+        <span class="logo-text">AZEROTH<span class="gold-text">SOCIAL</span></span>
+      </div>
+    </div>
+
+    <div class="nav-center desktop-only">
+      <button class="nav-tab active" data-tab="feed">
+        <span class="tab-icon">📜</span>
+        <span class="tab-label">Feed Main</span>
+      </button>
+      <button class="nav-tab" data-tab="discover">
+        <span class="tab-icon">🧭</span>
+        <span class="tab-label">Explorar</span>
+      </button>
+      <button class="nav-tab" data-tab="guilds">
+        <span class="tab-icon">🏰</span>
+        <span class="tab-label">Comunidades</span>
+      </button>
+      <button class="nav-tab" data-tab="sponsored">
+        <span class="tab-icon">⭐</span>
+        <span class="tab-label">Patrocinados</span>
+      </button>
+    </div>
+
+    <div class="nav-right">
+      <!-- BOTÃO DE VISUALIZAÇÃO DO ADDON IN-GAME (Solicitado pelo usuário) -->
+      <a href="addon_preview.html" class="btn-addon-preview">
+        <span class="pulse-dot"></span>
+        <span class="addon-icon">🎮</span>
+        <span class="addon-text">Ver Addon In-Game</span>
+      </a>
+
+      <button class="icon-btn notification-btn" title="Notificações">
+        🔔
+        <span class="badge">3</span>
+      </button>
+
+      <div class="user-quick-profile" onclick="switchTab('profile')">
+        <img src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=150&auto=format&fit=crop&q=80"
+          alt="Avatar" class="avatar-sm">
+        <div class="user-meta desktop-only">
+          <span class="user-name">Gabriel</span>
+          <span class="user-handle">@gabriel_wow</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="app-layout">
+    <!-- Left Sidebar: User Identity & Navigation -->
+    <aside class="sidebar-left">
+      <div class="user-card-widget">
+        <div class="banner-bg"></div>
+        <div class="widget-body">
+          <img src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=150&auto=format&fit=crop&q=80"
+            alt="Avatar" class="avatar-lg">
+          <h3 class="profile-name">Gabriel <span class="verified-badge" title="Jogador Verificado">✓</span></h3>
+          <p class="profile-handle">@gabriel_wow</p>
+          <p class="profile-bio">"Guild Master dos &lt;Knights of Azeroth&gt; · Mythic+ Enthusiast 3K+ RIO · Raider
+            Semanal."</p>
+
+          <!-- Main Character Highlight -->
+          <div class="main-char-box">
+            <span class="main-tag">⭐ PERSONAGEM PRINCIPAL</span>
+            <div class="char-info">
+              <div class="char-class-icon mage-icon">🔮</div>
+              <div class="char-details">
+                <div class="char-name-lvl">
+                  <span class="char-name mage-color">Arthas</span>
+                  <span class="char-lvl">Nível 80</span>
+                </div>
+                <div class="char-sub">Mago Arcano · Stormrage (US)</div>
+                <div class="char-guild">&lt;Knights of Azeroth&gt;</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stats-row">
+            <div class="stat-item">
+              <span class="stat-val">12</span>
+              <span class="stat-lbl">Personagens</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-val">1.4k</span>
+              <span class="stat-lbl">Seguidores</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-val">380</span>
+              <span class="stat-lbl">Seguindo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Nav Links -->
+      <nav class="side-menu">
+        <a href="#" class="menu-item active" onclick="switchTab('feed'); return false;">
+          <span class="icon">📰</span> Meu Feed
+        </a>
+        <a href="#" class="menu-item" onclick="switchTab('profile'); return false;">
+          <span class="icon">👤</span> Meu Perfil Completo
+        </a>
+        <a href="#" class="menu-item" onclick="switchTab('characters'); return false;">
+          <span class="icon">🛡️</span> Meus Personagens (12)
+        </a>
+        <a href="#" class="menu-item" onclick="switchTab('guilds'); return false;">
+          <span class="icon">🏰</span> Guildas & Eventos
+        </a>
+        <a href="#" class="menu-item" onclick="switchTab('sponsored'); return false;">
+          <span class="icon">📢</span> Hub de Criadores / Promoção
+        </a>
+        <a href="addon_preview.html" class="menu-item highlight-link">
+          <span class="icon">🎮</span> Simular Addon no WoW
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Center Content View Area -->
+    <main class="content-main">
+
+      <!-- ==================== VIEW: FEED ==================== -->
+      <section id="view-feed" class="app-view active">
+        <!-- Post Creator Box -->
+        <div class="create-post-card">
+          <div class="creator-header">
+            <img src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=150&auto=format&fit=crop&q=80"
+              alt="Avatar" class="avatar-sm">
+            <select class="char-selector-input">
+              <option value="gabriel">Publicar como Gabriel (Conta)</option>
+              <option value="arthas">Publicar via Arthas (Mago Lvl 80)</option>
+              <option value="jaina">Publicar via Jaina (Sacerdotisa Lvl 80)</option>
+            </select>
+          </div>
+          <textarea class="post-input"
+            placeholder="O que você conquistou em Azeroth hoje? Compartilhe um Transmog, RIO, Raids ou Screenshots..."></textarea>
+          <div class="creator-actions">
+            <div class="attach-btns">
+              <button class="attach-btn" title="Adicionar Transmog">👕 Transmog</button>
+              <button class="attach-btn" title="Adicionar Conquista">🏆 Conquista</button>
+              <button class="attach-btn" title="Adicionar Run M+">⚔️ M+ Key</button>
+              <button class="attach-btn" title="Screenshot">📸 Mídia</button>
+            </div>
+            <button class="btn-primary" onclick="addNewPost()">Publicar</button>
+          </div>
+        </div>
+
+        <!-- Feed Filter Tabs -->
+        <div class="feed-filters">
+          <button class="filter-btn active">🔥 Em Alta</button>
+          <button class="filter-btn">👥 Amigos & Seguindo</button>
+          <button class="filter-btn">🏆 Conquistas & Drops</button>
+          <button class="filter-btn">👗 Transmogs</button>
+          <button class="filter-btn">⭐ Patrocinados</button>
+        </div>
+
+        <!-- Feed Stream -->
+        <div class="posts-stream" id="posts-container">
+
+          <!-- POST 1: Conquista de Guilda / Raid (Post de Jogador via Personagem) -->
+          <article class="post-card">
+            <div class="post-header">
+              <div class="author-info">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80"
+                  alt="Avatar" class="avatar-md">
+                <div>
+                  <div class="author-title">
+                    <span class="author-name">Varian_King</span>
+                    <span class="via-tag">via <strong class="warrior-color">Lo'Gosh (Guerreiro)</strong></span>
+                  </div>
+                  <span class="post-time">Há 15 minutos · Azralon (BR)</span>
+                </div>
+              </div>
+              <button class="icon-btn-ghost">•••</button>
+            </div>
+
+            <div class="post-body">
+              <p>Finalmente derrubamos o Queen Ansurek no Mítico! 💥 Parabéns a toda a core da nossa guilda &lt;Honor
+                and Glory&gt;. Foram mais de 120 wipes mas a kill veio limpa!</p>
+
+              <!-- Achievement Card Integration -->
+              <div class="wow-achievement-card">
+                <div class="achieve-icon">🏆</div>
+                <div class="achieve-details">
+                  <span class="achieve-title">Mythic: Queen Ansurek</span>
+                  <span class="achieve-desc">Derrote a Rainha Ansurek no Palácio Nerub-ar na dificuldade Mítica.</span>
+                  <span class="achieve-points">+10 Pontos de Conquista</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="post-footer">
+              <button class="post-action-btn liked" onclick="toggleLike(this)">
+                <span class="action-icon">❤️</span> <span class="like-count">142</span>
+              </button>
+              <button class="post-action-btn">
+                <span class="action-icon">💬</span> 28 Comentários
+              </button>
+              <button class="post-action-btn">
+                <span class="action-icon">🔁</span> Compartilhar
+              </button>
+            </div>
+          </article>
+
+          <!-- POST 2: CONTEÚDO PATROCINADO (Monetização do projeto) -->
+          <article class="post-card sponsored-card">
+            <div class="sponsored-badge">⭐ CONTEÚDO PATROCINADO · PROMOÇÃO DE CRIADOR</div>
+            <div class="post-header">
+              <div class="author-info">
+                <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=150&auto=format&fit=crop&q=80"
+                  alt="Avatar" class="avatar-md">
+                <div>
+                  <div class="author-title">
+                    <span class="author-name">StreamerTowelliee</span>
+                    <span class="verified-badge">✓</span>
+                  </div>
+                  <span class="post-time">Promovido · Live On no Twitch</span>
+                </div>
+              </div>
+              <button class="btn-follow">+ Seguir</button>
+            </div>
+
+            <div class="post-body">
+              <p>🔴 <strong>AO VIVO AGORA:</strong> Rush de Mythic+ +30 com inscritos & Sorteio de Montaria da Loja de
+                WoW! Colem no chat para participar do sorteio e pedir sua vaga na PT.</p>
+              <div class="stream-embed-preview">
+                <div class="live-tag font-bold">🔴 LIVE ON · 4.2k Spectadores</div>
+                <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&auto=format&fit=crop&q=80"
+                  alt="Stream Preview" class="post-img">
+              </div>
+            </div>
+
+            <div class="post-footer">
+              <button class="post-action-btn" onclick="toggleLike(this)">
+                <span class="action-icon">🤍</span> <span class="like-count">890</span>
+              </button>
+              <button class="post-action-btn">
+                <span class="action-icon">💬</span> 154 Comentários
+              </button>
+              <a href="https://twitch.tv" target="_blank" class="btn-primary-sm">Assistir na Twitch ↗</a>
+            </div>
+          </article>
+
+          <!-- POST 3: Showcase de Transmog (Showcase Visual) -->
+          <article class="post-card">
+            <div class="post-header">
+              <div class="author-info">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"
+                  alt="Avatar" class="avatar-md">
+                <div>
+                  <div class="author-title">
+                    <span class="author-name">SylvanasFanatic</span>
+                    <span class="via-tag">via <strong class="rogue-color">ShadowBlade (Ladino)</strong></span>
+                  </div>
+                  <span class="post-time">Há 2 horas · Nemesis (BR)</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="post-body">
+              <p>Montei esse set com inspiração nos Caçadores de Sombras das Ilhas do Eco. O que acharam da combinação
+                com as adagas do Tier de Aberrus?</p>
+              <div class="transmog-gallery">
+                <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=800&auto=format&fit=crop&q=80"
+                  alt="Transmog Look" class="post-img">
+                <div class="transmog-item-list">
+                  <div class="item-slot"><span class="quality-epic">💜 Ombreiras da Sombra Primordial</span></div>
+                  <div class="item-slot"><span class="quality-epic">💜 Manto das Ilhas Negras</span></div>
+                  <div class="item-slot"><span class="quality-legendary">🧡 Adagas da Agonia Eterna</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="post-footer">
+              <button class="post-action-btn" onclick="toggleLike(this)">
+                <span class="action-icon">🤍</span> <span class="like-count">310</span>
+              </button>
+              <button class="post-action-btn">
+                <span class="action-icon">💬</span> 45 Comentários
+              </button>
+              <button class="post-action-btn">
+                <span class="action-icon">📋</span> Copiar Import Mog
+              </button>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- ==================== VIEW: MEU PERFIL (CONTA DO JOGADOR) ==================== -->
+      <section id="view-profile" class="app-view">
+        <div class="profile-hero-card">
+          <div class="hero-banner"></div>
+          <div class="hero-details">
+            <img src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=150&auto=format&fit=crop&q=80"
+              alt="Avatar" class="hero-avatar">
+            <div class="hero-text">
+              <h2>Gabriel <span class="verified-badge">✓</span></h2>
+              <p class="hero-handle">@gabriel_wow · Membro desde 2024</p>
+              <p class="hero-bio">Jogador ávido de World of Warcraft desde o Wrath of the Lich King. Focado em Push de
+                Chaves Mythic+, Coleção de Montarias e Liderança de Guilda.</p>
+              <div class="hero-tags">
+                <span class="tag-pill">🇧🇷 Brasil</span>
+                <span class="tag-pill">⚔️ PVE Raider</span>
+                <span class="tag-pill">🔑 M+ 3200+ Score</span>
+                <span class="tag-pill">🏰 GM &lt;Knights of Azeroth&gt;</span>
+              </div>
+            </div>
+            <button class="btn-secondary">Editar Perfil</button>
+          </div>
+        </div>
+
+        <!-- Multi-Character Account Concept Section (Ponto Central do Projeto) -->
+        <div class="section-block">
+          <div class="block-header">
+            <h3>🛡️ Personagens Vinculados à Conta (12)</h3>
+            <span class="info-tooltip">Uma única conta, múltiplos personagens e reinos.</span>
+          </div>
+
+          <div class="characters-grid">
+            <!-- Char 1 (Main) -->
+            <div class="character-card is-main">
+              <span class="main-badge">★ PRINCIPAL</span>
+              <div class="char-card-header">
+                <span class="char-class mage-color">🔮 Arthas</span>
+                <span class="char-lvl">Lvl 80</span>
+              </div>
+              <p class="char-spec">Mago Arcano · Stormrage (US)</p>
+              <div class="char-stats-mini">
+                <span>ilvl: <strong>634</strong></span> · <span>M+ RIO: <strong class="rio-gold">3,250</strong></span>
+              </div>
+              <div class="char-privacy"><span class="icon">🌐</span> Visível para Todos</div>
+            </div>
+
+            <!-- Char 2 -->
+            <div class="character-card">
+              <div class="char-card-header">
+                <span class="char-class priest-color">✝️ Jaina</span>
+                <span class="char-lvl">Lvl 80</span>
+              </div>
+              <p class="char-spec">Sacerdote Sagrado · Azralon (BR)</p>
+              <div class="char-stats-mini">
+                <span>ilvl: <strong>620</strong></span> · <span>M+ RIO: <strong class="rio-purple">2,800</strong></span>
+              </div>
+              <div class="char-privacy"><span class="icon">👥</span> Somente Amigos</div>
+            </div>
+
+            <!-- Char 3 -->
+            <div class="character-card">
+              <div class="char-card-header">
+                <span class="char-class hunter-color">🏹 Thrall</span>
+                <span class="char-lvl">Lvl 72</span>
+              </div>
+              <p class="char-spec">Caçador Domador · Area 52 (US)</p>
+              <div class="char-stats-mini">
+                <span>ilvl: <strong>580</strong></span> · <span>Alt Character</span>
+              </div>
+              <div class="char-privacy"><span class="icon">🔒</span> Privado</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activity Timeline of Player -->
+        <div class="section-block">
+          <h3>📜 Histórico de Atividades do Jogador</h3>
+          <div class="activity-timeline">
+            <div class="timeline-item">
+              <div class="timeline-icon">🏆</div>
+              <div class="timeline-content">
+                <strong>Gabriel (via Arthas)</strong> obteve a conquista <span class="gold-text">[Ahead of the Curve:
+                  Queen Ansurek]</span>
+                <span class="time">Ontem às 22:40</span>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-icon">🐉</div>
+              <div class="timeline-content">
+                <strong>Gabriel</strong> adicionou a montaria <em>[Invincible's Reins]</em> à sua coleção pública.
+                <span class="time">Há 3 dias</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== VIEW: EXPLORAR / DESCOBRIR ==================== -->
+      <section id="view-discover" class="app-view">
+        <div class="page-title-block">
+          <h2>🧭 Explorar Azeroth Social</h2>
+          <p>Descubra novos parceiros de grupo, guildas recrutando e coleções em destaque.</p>
+        </div>
+
+        <div class="discover-grid">
+          <div class="discover-card">
+            <h3>👥 Encontrar Jogadores por RIO/Raid</h3>
+            <p>Filtre por classe, papel (Tank/Healer/DPS) e chave de Mythic+ para montar seu time fixo.</p>
+            <button class="btn-primary-sm">Buscar Grupos</button>
+          </div>
+          <div class="discover-card">
+            <h3>🏰 Recrutamento de Guildas</h3>
+            <p>Guildas ativas buscando jogadores para Mythic Raid e chaves de fim de semana.</p>
+            <button class="btn-primary-sm">Ver Guildas</button>
+          </div>
+          <div class="discover-card">
+            <h3>👗 Concurso de Transmogs</h3>
+            <p>Vote nos melhores conjuntos visuais da comunidade deste mês.</p>
+            <button class="btn-primary-sm">Votar Agora</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== VIEW: GUILDAS E COMUNIDADES ==================== -->
+      <section id="view-guilds" class="app-view">
+        <div class="page-title-block">
+          <h2>🏰 Guildas & Comunidades</h2>
+          <p>Gerencie sua guilda e participe de comunidades inter-reinos.</p>
+        </div>
+
+        <div class="guild-hero-card">
+          <div class="guild-crest">🛡️</div>
+          <div class="guild-info">
+            <h2>&lt;Knights of Azeroth&gt;</h2>
+            <p>Reino: <strong>Stormrage (US)</strong> · Fação: <strong>Aliança / Horda</strong> · Membros:
+              <strong>145</strong>
+            </p>
+            <p class="guild-desc">Guilda focada em Progressão Mítica sem estresse. Raids terças e quintas das 20h às
+              23h.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== VIEW: HUB PATROCINADO (MONETIZAÇÃO) ==================== -->
+      <section id="view-sponsored" class="app-view">
+        <div class="page-title-block">
+          <h2>⭐ Hub de Conteúdo Patrocinado & Criadores</h2>
+          <p>Saiba como streamers, guildas e organizadores usam a plataforma para divulgar seus projetos sem custo para
+            os jogadores.</p>
+        </div>
+
+        <div class="sponsored-explainer-card">
+          <div class="explainer-content">
+            <h3>📢 Sistema de Divulgação Azeroth Social</h3>
+            <p>O Azeroth Social é <strong>100% gratuito</strong> para todos os jogadores. Nossa monetização vem de
+              criadores de conteúdo e guildas que promovem suas lives, eventos de comunidade e recrutamento no feed
+              social de jogadores segmentados por interesse.</p>
+          </div>
+        </div>
+
+        <div class="sponsored-campaigns-list">
+          <h3>Campanhas em Destaque no Momento</h3>
+          <div class="campaign-card">
+            <div class="campaign-header">
+              <span class="badge-creator">🎥 Streamer Patrocinado</span>
+              <h4>Torneio de Mythic+ da Comunidade BR</h4>
+            </div>
+            <p>Premiação de $500 USD em Saldo Battle.net! Inscreva seu time até sexta-feira.</p>
+            <button class="btn-secondary-sm">Saber Mais & Inscrever</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Right Sidebar: Friends Online & WoW News -->
+    <aside class="sidebar-right">
+      <!-- In-Game Addon Status Widget -->
+      <div class="addon-status-card">
+        <div class="status-header">
+          <span class="status-icon">🎮</span>
+          <h4>Azeroth Social Addon</h4>
+        </div>
+        <p class="status-desc">Instalado & Sincronizado no WoW</p>
+        <div class="status-sync">
+          <span class="online-indicator"></span> Última sinc: Há 2 min
+        </div>
+        <a href="addon_preview.html" class="btn-addon-shortcut">
+          <span>Abrir Simulação do Addon ↗</span>
+        </a>
+      </div>
+
+      <!-- Online Friends List -->
+      <div class="widget-box">
+        <div class="widget-header">
+          <h4>👥 Amigos Online (4)</h4>
+          <a href="#" class="link-sm">Ver todos</a>
+        </div>
+        <ul class="friends-list">
+          <li class="friend-item">
+            <div class="avatar-wrapper">
+              <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80"
+                alt="Friend">
+              <span class="status-dot online"></span>
+            </div>
+            <div class="friend-details">
+              <span class="friend-name">Varian_King</span>
+              <span class="friend-playing">Jogando no WoW: <strong>Palácio Nerub-ar</strong></span>
+            </div>
+          </li>
+          <li class="friend-item">
+            <div class="avatar-wrapper">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"
+                alt="Friend">
+              <span class="status-dot online"></span>
+            </div>
+            <div class="friend-details">
+              <span class="friend-name">SylvanasFanatic</span>
+              <span class="friend-playing">Jogando no WoW: <strong>Mythic+ Mists +12</strong></span>
+            </div>
+          </li>
+          <li class="friend-item">
+            <div class="avatar-wrapper">
+              <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=150&auto=format&fit=crop&q=80"
+                alt="Friend">
+              <span class="status-dot idle"></span>
+            </div>
+            <div class="friend-details">
+              <span class="friend-name">Anduin_Priest</span>
+              <span class="friend-playing">No Azeroth Social Web</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Trending WoW Topics -->
+      <div class="widget-box">
+        <div class="widget-header">
+          <h4>🔥 Assuntos do Momento em Azeroth</h4>
+        </div>
+        <div class="trending-list">
+          <div class="trending-item">
+            <span class="trend-category">Raid & Progressão</span>
+            <span class="trend-title">#NerubarPalaceMythic</span>
+            <span class="trend-posts">1.4k posts hoje</span>
+          </div>
+          <div class="trending-item">
+            <span class="trend-category">Transmog</span>
+            <span class="trend-title">#ShadowlandsSets</span>
+            <span class="trend-posts">850 posts hoje</span>
+          </div>
+          <div class="trending-item">
+            <span class="trend-category">Comunidade</span>
+            <span class="trend-title">#RecrutamentoAzralon</span>
+            <span class="trend-posts">420 posts hoje</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

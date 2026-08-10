@@ -1,0 +1,1041 @@
+/* Azeroth Social Design System - Modern WoW Dark Fantasy Theme */
+:root {
+  --bg-main: #0B0E14;
+  --bg-card: #141923;
+  --bg-card-hover: #1C2333;
+  --bg-sidebar: #0F131C;
+  --border-color: #263045;
+  --border-gold: #C89B3C;
+  
+  --text-primary: #F0F4F8;
+  --text-secondary: #94A3B8;
+  --text-gold: #F5D166;
+  
+  --accent-gold: #C89B3C;
+  --accent-gold-hover: #E0AF47;
+  --accent-blue: #3B82F6;
+  
+  /* Class Colors */
+  --color-mage: #3FC7EB;
+  --color-warrior: #C69E6D;
+  --color-rogue: #FFF468;
+  --color-priest: #FFFFFF;
+  --color-hunter: #AAD372;
+  
+  /* Quality Colors */
+  --quality-epic: #A335EE;
+  --quality-legendary: #FF8000;
+  
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  
+  --shadow-main: 0 10px 30px rgba(0, 0, 0, 0.5);
+  --shadow-gold: 0 0 20px rgba(200, 155, 60, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* Header Navbar */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background-color: var(--bg-sidebar);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.logo {
+  font-family: 'Cinzel', serif;
+  font-size: 1.3rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.gold-text {
+  color: var(--accent-gold);
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
+  padding: 8px 14px;
+  border-radius: 20px;
+  width: 320px;
+}
+
+.search-bar input {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  margin-left: 8px;
+  width: 100%;
+  outline: none;
+  font-size: 0.9rem;
+}
+
+.nav-center {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-tab {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.nav-tab:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-card);
+}
+
+.nav-tab.active {
+  color: var(--accent-gold);
+  background-color: rgba(200, 155, 60, 0.1);
+  border: 1px solid rgba(200, 155, 60, 0.3);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* User's Addon Preview Button */
+.btn-addon-preview {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
+  color: #FFF;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-addon-preview:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.7);
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #10B981;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #10B981;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.4; }
+  50% { opacity: 1; }
+  100% { opacity: 0.4; }
+}
+
+.user-quick-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.avatar-sm {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--accent-gold);
+  object-fit: cover;
+}
+
+.avatar-md {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  object-fit: cover;
+}
+
+.avatar-lg {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 3px solid var(--accent-gold);
+  object-fit: cover;
+  margin-top: -36px;
+}
+
+.user-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: block;
+}
+
+.user-handle {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* App Layout Grid */
+.app-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr 300px;
+  gap: 24px;
+  max-width: 1400px;
+  margin: 24px auto;
+  padding: 0 24px;
+}
+
+/* Sidebar Left */
+.user-card-widget {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.banner-bg {
+  height: 80px;
+  background: linear-gradient(135deg, #1E1B4B 0%, #311B92 50%, #4A148C 100%);
+}
+
+.widget-body {
+  padding: 0 16px 16px;
+  text-align: center;
+}
+
+.profile-name {
+  font-size: 1.1rem;
+  margin-top: 8px;
+}
+
+.verified-badge {
+  color: var(--accent-gold);
+  font-size: 0.9rem;
+}
+
+.profile-handle {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.profile-bio {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+}
+
+.main-char-box {
+  background-color: rgba(200, 155, 60, 0.08);
+  border: 1px solid rgba(200, 155, 60, 0.3);
+  border-radius: var(--radius-md);
+  padding: 10px;
+  text-align: left;
+  margin-bottom: 14px;
+}
+
+.main-tag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  letter-spacing: 0.5px;
+}
+
+.char-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.char-class-icon {
+  font-size: 1.5rem;
+}
+
+.char-name-lvl {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.mage-color { color: var(--color-mage); }
+.warrior-color { color: var(--color-warrior); }
+.rogue-color { color: var(--color-rogue); }
+.priest-color { color: var(--color-priest); }
+.hunter-color { color: var(--color-hunter); }
+
+.char-sub {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.char-guild {
+  font-size: 0.72rem;
+  color: var(--accent-gold);
+}
+
+.stats-row {
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid var(--border-color);
+  padding-top: 12px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-val {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.stat-lbl {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+.side-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.menu-item:hover, .menu-item.active {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.menu-item.highlight-link {
+  color: #60A5FA;
+  background-color: rgba(59, 130, 246, 0.1);
+  border: 1px dashed rgba(59, 130, 246, 0.4);
+}
+
+/* Views Management */
+.app-view {
+  display: none;
+}
+
+.app-view.active {
+  display: block;
+}
+
+/* Create Post Card */
+.create-post-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.creator-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.char-selector-input {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.post-input {
+  width: 100%;
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  color: var(--text-primary);
+  font-family: inherit;
+  resize: vertical;
+  min-height: 80px;
+  margin-bottom: 12px;
+  outline: none;
+}
+
+.creator-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.attach-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.attach-btn {
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.attach-btn:hover {
+  border-color: var(--accent-gold);
+  color: var(--text-primary);
+}
+
+.btn-primary {
+  background-color: var(--accent-gold);
+  color: #000;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-gold-hover);
+}
+
+/* Feed Filters */
+.feed-filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+.filter-btn {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.filter-btn.active {
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+  background-color: rgba(200, 155, 60, 0.1);
+}
+
+/* Posts Stream */
+.post-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.sponsored-card {
+  border: 1px solid var(--accent-gold);
+  background: linear-gradient(180deg, rgba(200, 155, 60, 0.05) 0%, var(--bg-card) 100%);
+  position: relative;
+}
+
+.sponsored-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.author-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.author-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.via-tag {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-left: 6px;
+}
+
+.post-time {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  display: block;
+}
+
+.post-body p {
+  margin-bottom: 14px;
+  font-size: 0.95rem;
+}
+
+/* WoW Achievement Card Component */
+.wow-achievement-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  box-shadow: var(--shadow-gold);
+}
+
+.achieve-icon {
+  font-size: 2rem;
+  background: rgba(200, 155, 60, 0.2);
+  padding: 8px;
+  border-radius: var(--radius-sm);
+}
+
+.achieve-title {
+  font-weight: 700;
+  color: var(--text-gold);
+  display: block;
+}
+
+.achieve-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  display: block;
+}
+
+.achieve-points {
+  font-size: 0.75rem;
+  color: #10B981;
+  font-weight: 600;
+}
+
+.post-img {
+  width: 100%;
+  border-radius: var(--radius-md);
+  max-height: 400px;
+  object-fit: cover;
+  margin-bottom: 12px;
+}
+
+.stream-embed-preview {
+  position: relative;
+}
+
+.live-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background-color: #EF4444;
+  color: #FFF;
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+.transmog-item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background-color: var(--bg-main);
+  padding: 10px;
+  border-radius: var(--radius-md);
+  font-size: 0.82rem;
+}
+
+.post-footer {
+  display: flex;
+  gap: 16px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 14px;
+  margin-top: 14px;
+}
+
+.post-action-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.post-action-btn:hover {
+  color: var(--text-primary);
+}
+
+.post-action-btn.liked {
+  color: #EF4444;
+}
+
+.btn-primary-sm, .btn-secondary-sm {
+  padding: 6px 14px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-primary-sm {
+  background-color: var(--accent-gold);
+  color: #000;
+  border: none;
+}
+
+.btn-secondary-sm {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.btn-follow {
+  background: none;
+  border: 1px solid var(--accent-gold);
+  color: var(--accent-gold);
+  padding: 4px 12px;
+  border-radius: 14px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+/* Profile View */
+.profile-hero-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.hero-banner {
+  height: 140px;
+  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+}
+
+.hero-details {
+  padding: 0 24px 24px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.hero-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 4px solid var(--accent-gold);
+  margin-top: -50px;
+  object-fit: cover;
+}
+
+.hero-text h2 {
+  font-size: 1.4rem;
+}
+
+.hero-handle {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.hero-bio {
+  margin: 10px 0;
+  font-size: 0.9rem;
+}
+
+.hero-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tag-pill {
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.section-block {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.info-tooltip {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.characters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.character-card {
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  position: relative;
+}
+
+.character-card.is-main {
+  border-color: var(--accent-gold);
+  box-shadow: var(--shadow-gold);
+}
+
+.main-badge {
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  background-color: var(--accent-gold);
+  color: #000;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.char-card-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.char-spec {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.char-stats-mini {
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+}
+
+.rio-gold { color: #FF8000; }
+.rio-purple { color: #A335EE; }
+
+.char-privacy {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border-color);
+  padding-top: 6px;
+}
+
+/* Sidebar Right */
+.addon-status-card {
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.3) 0%, var(--bg-card) 100%);
+  border: 1px solid #3B82F6;
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.status-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 4px 0 10px;
+}
+
+.status-sync {
+  font-size: 0.75rem;
+  color: #10B981;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.online-indicator {
+  width: 8px;
+  height: 8px;
+  background-color: #10B981;
+  border-radius: 50%;
+}
+
+.btn-addon-shortcut {
+  display: block;
+  text-align: center;
+  background-color: #3B82F6;
+  color: #FFF;
+  text-decoration: none;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.widget-box {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.widget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.link-sm {
+  font-size: 0.75rem;
+  color: var(--accent-gold);
+  text-decoration: none;
+}
+
+.friends-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.friend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar-wrapper {
+  position: relative;
+}
+
+.avatar-wrapper img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.status-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--bg-card);
+}
+
+.status-dot.online { background-color: #10B981; }
+.status-dot.idle { background-color: #F59E0B; }
+
+.friend-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: block;
+}
+
+.friend-playing {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  display: block;
+}
+
+.trending-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.trending-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.trend-category {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+.trend-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.trend-posts {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+/* Page Titles */
+.page-title-block {
+  margin-bottom: 20px;
+}
+
+.page-title-block p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.discover-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.discover-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+
+.discover-card h3 {
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.discover-card p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+}
+
+.guild-hero-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.guild-crest {
+  font-size: 3rem;
+  background-color: var(--bg-main);
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--accent-gold);
+}
+
+.sponsored-explainer-card {
+  background: linear-gradient(135deg, rgba(200, 155, 60, 0.1) 0%, var(--bg-card) 100%);
+  border: 1px solid var(--accent-gold);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.badge-creator {
+  font-size: 0.7rem;
+  color: var(--accent-gold);
+  font-weight: 700;
+}
+
+.campaign-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin-top: 12px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .app-layout {
+    grid-template-columns: 1fr;
+  }
+  .desktop-only {
+    display: none;
+  }
+}

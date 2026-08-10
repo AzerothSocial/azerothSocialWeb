@@ -1,0 +1,409 @@
+/* Addon In-Game Preview Screen Styling */
+:root {
+  --wow-window-bg: #0C0F17;
+  --wow-titlebar: #1A2232;
+  --wow-border: #C89B3C;
+  --wow-border-dark: #4A3B18;
+  --text-main: #DCD0C0;
+  --text-gold: #F5D166;
+  
+  --color-mage: #3FC7EB;
+  --color-warrior: #C69E6D;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #000;
+  color: var(--text-main);
+  overflow: hidden;
+}
+
+/* Simulated Game Backdrop */
+.game-screen {
+  width: 100vw;
+  height: 100vh;
+  background: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1920&auto=format&fit=crop&q=80') center/cover no-repeat;
+  position: relative;
+}
+
+.game-overlay {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-hud-top {
+  position: absolute;
+  top: 20px;
+  left: 24px;
+  right: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-return-web {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid var(--wow-border);
+  color: var(--text-gold);
+  text-decoration: none;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  box-shadow: 0 0 15px rgba(200, 155, 60, 0.3);
+  transition: all 0.2s ease;
+}
+
+.btn-return-web:hover {
+  background: var(--wow-border);
+  color: #000;
+}
+
+.hud-status {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  color: #94A3B8;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.fps-ping {
+  margin-left: 12px;
+  color: #10B981;
+}
+
+/* World of Warcraft Styled Addon Window Frame */
+.wow-addon-window {
+  width: 780px;
+  height: 540px;
+  background-color: var(--wow-window-bg);
+  border: 2px solid var(--wow-border);
+  border-radius: 8px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.9), 0 0 20px rgba(200, 155, 60, 0.2);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.addon-titlebar {
+  background: linear-gradient(180deg, #26334A 0%, #161E2E 100%);
+  border-bottom: 2px solid var(--wow-border-dark);
+  padding: 10px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.addon-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.addon-title {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  color: var(--text-gold);
+  font-size: 1rem;
+}
+
+.version-tag {
+  font-size: 0.75rem;
+  color: #94A3B8;
+  font-family: 'Inter', sans-serif;
+}
+
+.addon-window-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.addon-btn-mini, .addon-btn-close {
+  background: var(--wow-titlebar);
+  border: 1px solid var(--wow-border);
+  color: var(--text-gold);
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 0.8rem;
+}
+
+.addon-btn-close:hover {
+  background-color: #991B1B;
+  color: #FFF;
+  border-color: #EF4444;
+}
+
+/* Addon Layout Body */
+.addon-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.addon-nav-tabs {
+  width: 170px;
+  background-color: #121722;
+  border-right: 1px solid var(--wow-border-dark);
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.addon-tab {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(200, 155, 60, 0.2);
+  color: var(--text-main);
+  padding: 10px 12px;
+  text-align: left;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.addon-tab:hover {
+  background-color: rgba(200, 155, 60, 0.15);
+  color: #FFF;
+}
+
+.addon-tab.active {
+  background: linear-gradient(90deg, rgba(200, 155, 60, 0.3) 0%, rgba(200, 155, 60, 0.05) 100%);
+  border-color: var(--wow-border);
+  color: var(--text-gold);
+  font-weight: 700;
+}
+
+.addon-content-panel {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  background-color: #0E121B;
+}
+
+.addon-view {
+  display: none;
+}
+
+.addon-view.active {
+  display: block;
+}
+
+.addon-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--wow-border-dark);
+  padding-bottom: 8px;
+  margin-bottom: 14px;
+}
+
+.addon-section-header h3 {
+  font-size: 1.05rem;
+  color: var(--text-gold);
+}
+
+.sync-badge {
+  font-size: 0.72rem;
+  color: #10B981;
+}
+
+.addon-post-box {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.addon-post-box input {
+  flex: 1;
+  background-color: #161D2A;
+  border: 1px solid var(--wow-border-dark);
+  color: var(--text-main);
+  padding: 8px 12px;
+  border-radius: 4px;
+  outline: none;
+  font-size: 0.85rem;
+}
+
+.addon-btn-gold {
+  background-color: var(--wow-border);
+  color: #000;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.addon-feed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.addon-feed-card {
+  background-color: #151B27;
+  border: 1px solid #232D42;
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.addon-card-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  margin-bottom: 6px;
+}
+
+.addon-author {
+  font-weight: 700;
+}
+
+.mage-color { color: var(--color-mage); }
+.warrior-color { color: var(--color-warrior); }
+
+.addon-time {
+  color: #64748B;
+  font-size: 0.75rem;
+}
+
+.addon-text {
+  font-size: 0.88rem;
+  margin-bottom: 10px;
+}
+
+.addon-achieve-box {
+  background-color: rgba(200, 155, 60, 0.1);
+  border: 1px solid var(--wow-border);
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: var(--text-gold);
+  margin-bottom: 10px;
+}
+
+.addon-card-actions {
+  display: flex;
+  gap: 10px;
+  border-top: 1px solid #1E2738;
+  padding-top: 8px;
+}
+
+.addon-action {
+  background: none;
+  border: none;
+  color: #94A3B8;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.addon-action.highlight {
+  color: #60A5FA;
+  margin-left: auto;
+}
+
+.addon-profile-box {
+  background-color: #151B27;
+  border: 1px solid #232D42;
+  border-radius: 6px;
+  padding: 14px;
+}
+
+.addon-user-header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.addon-avatar-frame {
+  font-size: 2rem;
+  background: #1E2738;
+  padding: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--wow-border);
+}
+
+.addon-sub {
+  font-size: 0.82rem;
+  color: #94A3B8;
+}
+
+.addon-realm-tag {
+  font-size: 0.75rem;
+  color: var(--text-gold);
+}
+
+.addon-stats-table {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.85rem;
+  border-top: 1px solid #1E2738;
+  padding-top: 12px;
+}
+
+.addon-stat-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.rio-gold { color: #FF8000; font-weight: 700; }
+
+.addon-guild-notice {
+  background-color: rgba(200, 155, 60, 0.1);
+  border: 1px solid var(--wow-border);
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  margin-top: 12px;
+}
+
+.code-box {
+  background-color: #080B10;
+  border: 1px solid #1E2738;
+  padding: 12px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: #A7F3D0;
+  margin-top: 12px;
+}
+
+.addon-footer {
+  background-color: #121722;
+  border-top: 1px solid var(--wow-border-dark);
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: #64748B;
+}
+
+.addon-link-site {
+  color: var(--text-gold);
+  text-decoration: none;
+  font-weight: 600;
+}

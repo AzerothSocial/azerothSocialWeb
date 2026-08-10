@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Azeroth Social Addon — Simulação In-Game World of Warcraft</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="addon_style.css">
+</head>
+<body>
+  <!-- WoW Game Background Frame Simulation -->
+  <div class="game-screen">
+    <div class="game-overlay">
+      <div class="game-hud-top">
+        <a href="index.html" class="btn-return-web">
+          ⬅ Voltar para o Site Azeroth Social
+        </a>
+        <div class="hud-status">
+          <span class="game-zone">📍 Dornogal · Ilha de Dorn</span>
+          <span class="fps-ping">60 FPS · 32 ms</span>
+        </div>
+      </div>
+
+      <!-- Addon Window Simulation (Lua / XML Frame replica) -->
+      <div class="wow-addon-window">
+        <!-- WoW Frame Header -->
+        <div class="addon-titlebar">
+          <div class="addon-brand">
+            <span class="addon-logo-icon">⚔️</span>
+            <span class="addon-title">Azeroth Social <span class="version-tag">v0.1-MVP</span></span>
+          </div>
+          <div class="addon-window-actions">
+            <button class="addon-btn-mini" title="Minimizar">_</button>
+            <a href="index.html" class="addon-btn-close" title="Fechar Addon">✕</a>
+          </div>
+        </div>
+
+        <!-- Addon Content Layout -->
+        <div class="addon-body">
+          <!-- Left Navigation Tabs (Estilo UI clássica de Addons WoW) -->
+          <div class="addon-nav-tabs">
+            <button class="addon-tab active" onclick="switchAddonTab('feed')">
+              📜 Feed In-Game
+            </button>
+            <button class="addon-tab" onclick="switchAddonTab('profile')">
+              👤 Perfil Social
+            </button>
+            <button class="addon-tab" onclick="switchAddonTab('guild')">
+              🏰 Guilda & Raids
+            </button>
+            <button class="addon-tab" onclick="switchAddonTab('sync')">
+              🔄 Sincronização
+            </button>
+          </div>
+
+          <!-- Addon Main Content Area -->
+          <div class="addon-content-panel">
+
+            <!-- ADDON VIEW: FEED -->
+            <div id="addon-feed" class="addon-view active">
+              <div class="addon-section-header">
+                <h3>📜 Feed Social do Jogo</h3>
+                <span class="sync-badge">🟢 Online com AzerothSocial.com</span>
+              </div>
+
+              <!-- Quick Post in Game -->
+              <div class="addon-post-box">
+                <input type="text" id="addon-input-text" placeholder="Compartilhar no feed do jogo (ex: Grupo de M+ aberto, transmog novo)...">
+                <button class="addon-btn-gold" onclick="sendAddonPost()">Postar</button>
+              </div>
+
+              <!-- Feed Items Inside Addon Window -->
+              <div class="addon-feed-list" id="addon-feed-container">
+                <div class="addon-feed-card">
+                  <div class="addon-card-header">
+                    <span class="addon-author mage-color">Arthas-Stormrage (Você)</span>
+                    <span class="addon-time">Há 5 min</span>
+                  </div>
+                  <p class="addon-text">Montando chave M+ Mists +10 para completar semanal. Preciso de Healer e 1 DPS!</p>
+                  <div class="addon-card-actions">
+                    <button class="addon-action" onclick="toggleAddonLike(this)">❤️ 12</button>
+                    <button class="addon-action">💬 3 Comentários</button>
+                    <button class="addon-action highlight">⚔️ Convidar pro Grupo</button>
+                  </div>
+                </div>
+
+                <div class="addon-feed-card">
+                  <div class="addon-card-header">
+                    <span class="addon-author warrior-color">Lo'Gosh-Azralon</span>
+                    <span class="addon-time">Há 22 min</span>
+                  </div>
+                  <p class="addon-text">🏆 Derrotou o chefe final da Raid Nerub-ar no Mítico!</p>
+                  <div class="addon-achieve-box">
+                    <span>🏆 [Mythic: Queen Ansurek]</span>
+                  </div>
+                  <div class="addon-card-actions">
+                    <button class="addon-action" onclick="toggleAddonLike(this)">🤍 45</button>
+                    <button class="addon-action">💬 8 Comentários</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ADDON VIEW: PROFILE -->
+            <div id="addon-profile" class="addon-view">
+              <div class="addon-section-header">
+                <h3>👤 Identidade do Jogador (Dados do Addon)</h3>
+              </div>
+
+              <div class="addon-profile-box">
+                <div class="addon-user-header">
+                  <div class="addon-avatar-frame">🔮</div>
+                  <div>
+                    <h4 class="mage-color">Arthas (Mago Lvl 80)</h4>
+                    <p class="addon-sub">Conta de Usuário: <strong>Gabriel (@gabriel_wow)</strong></p>
+                    <span class="addon-realm-tag">Reino: Stormrage (US) · Guilda: &lt;Knights of Azeroth&gt;</span>
+                  </div>
+                </div>
+
+                <div class="addon-stats-table">
+                  <div class="addon-stat-row">
+                    <span>Nível de Item (ilvl):</span>
+                    <strong>634 Equipado</strong>
+                  </div>
+                  <div class="addon-stat-row">
+                    <span>Pontuação M+ (RIO):</span>
+                    <span class="rio-gold">3,250 Rating</span>
+                  </div>
+                  <div class="addon-stat-row">
+                    <span>Outros Personagens Vinculados:</span>
+                    <span>Jaina (Sacerdote), Thrall (Caçador)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ADDON VIEW: GUILD -->
+            <div id="addon-guild" class="addon-view">
+              <div class="addon-section-header">
+                <h3>🏰 &lt;Knights of Azeroth&gt; · Atividades de Guilda</h3>
+              </div>
+              <p class="addon-sub">Feed integrado de conquistas da guilda e anúncios do Guild Master.</p>
+              <div class="addon-guild-notice">
+                📢 <strong>Aviso da Raid:</strong> Core Mítica hoje às 20:00. Confirmar presença no site ou no addon até 19:00.
+              </div>
+            </div>
+
+            <!-- ADDON VIEW: SYNC -->
+            <div id="addon-sync" class="addon-view">
+              <div class="addon-section-header">
+                <h3>🔄 Status da Sincronização SavedVariables</h3>
+              </div>
+              <div class="addon-sync-details">
+                <p>O Addon grava automaticamente as conquistas, estatísticas e postagens em tempo real no arquivo local <code>AzerothSocial.lua</code>.</p>
+                <div class="code-box">
+                  <code>
+                    AzerothSocialDB = {<br>
+                    &nbsp;&nbsp;player = "Gabriel",<br>
+                    &nbsp;&nbsp;activeChar = "Arthas-Stormrage",<br>
+                    &nbsp;&nbsp;lastSync = "2026-08-08 14:10:00",<br>
+                    &nbsp;&nbsp;pendingPosts = 0<br>
+                    }
+                  </code>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Addon Footer Bar -->
+        <div class="addon-footer">
+          <span>Digitar <code>/azeroth</code> para abrir no WoW</span>
+          <a href="index.html" class="addon-link-site">🌐 Abrir no Navegador Web ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function switchAddonTab(tabId) {
+      document.querySelectorAll('.addon-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.addon-view').forEach(v => v.classList.remove('active'));
+
+      event.target.classList.add('active');
+      document.getElementById(`addon-${tabId}`).classList.add('active');
+    }
+
+    function sendAddonPost() {
+      const input = document.getElementById('addon-input-text');
+      const text = input.value.trim();
+
+      if (!text) return;
+
+      const container = document.getElementById('addon-feed-container');
+      const newCard = document.createElement('div');
+      newCard.className = 'addon-feed-card';
+      newCard.innerHTML = `
+        <div class="addon-card-header">
+          <span class="addon-author mage-color">Arthas-Stormrage (Você)</span>
+          <span class="addon-time">Agora mesmo</span>
+        </div>
+        <p class="addon-text">${escapeHTML(text)}</p>
+        <div class="addon-card-actions">
+          <button class="addon-action" onclick="toggleAddonLike(this)">🤍 0</button>
+          <button class="addon-action">💬 0 Comentários</button>
+        </div>
+      `;
+      container.prepend(newCard);
+      input.value = '';
+    }
+
+    function toggleAddonLike(btn) {
+      if (btn.classList.contains('liked')) {
+        btn.classList.remove('liked');
+        btn.innerHTML = '🤍 0';
+      } else {
+        btn.classList.add('liked');
+        btn.innerHTML = '❤️ 1';
+      }
+    }
+
+    function escapeHTML(str) {
+      return str.replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+      );
+    }
+  </script>
+</body>
+</html>
