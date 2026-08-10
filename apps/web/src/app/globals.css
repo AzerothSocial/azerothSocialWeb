@@ -1105,6 +1105,19 @@ i.fa-regular {
   cursor: pointer;
 }
 
+/* Active Menu Item Glow */
+.side-menu .menu-item.active {
+  background: rgba(200, 155, 60, 0.15);
+  border-left: 3px solid var(--accent-gold);
+  color: var(--accent-gold);
+  font-weight: 700;
+  box-shadow: inset 20px 0 30px -20px rgba(200, 155, 60, 0.2);
+}
+
+.side-menu .menu-item.active .icon {
+  text-shadow: 0 0 10px rgba(200, 155, 60, 0.5);
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
   .app-layout {

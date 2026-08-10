@@ -275,55 +275,6 @@ export default function FeedClientView({
 
 
 
-      {/* Sugestões de Jogadores para Seguir */}
-      {suggestedPlayers.length > 0 && (
-        <div className="bg-[#141923] border border-[#263045] rounded-xl p-4">
-          <h4 className="font-cinzel text-xs font-bold text-[#C89B3C] uppercase tracking-wider mb-3 flex items-center gap-2">
-            <i className="fa-solid fa-[#C89B3C] fa-compass"></i> Sugestões de Jogadores de Azeroth
-          </h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {suggestedPlayers.map((player) => {
-              const isFollowing = followingIds.includes(player.id)
-              return (
-                <div key={player.id} className="flex justify-between items-center bg-[#0B0E14] p-3 rounded border border-[#263045]">
-                  <div className="flex items-center gap-2">
-                    <img src={player.avatar_url || "https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=150&auto=format&fit=crop&q=80"} alt="Avatar" className="avatar-sm" />
-                    <div>
-                      <span className="font-bold text-xs block">{player.display_name}</span>
-                      <span className="text-[10px] text-slate-400">@{player.username}</span>
-                    </div>
-                  </div>
-                  <div className="flex gap-1">
-                    {isFollowing ? (
-                      <button 
-                        onClick={() => unfollowUserAction(player.id)}
-                        className="text-[10px] bg-slate-800 text-slate-300 px-2 py-1 rounded"
-                      >
-                        Seguindo
-                      </button>
-                    ) : (
-                      <button 
-                        onClick={() => followUserAction(player.id)}
-                        className="text-[10px] bg-[#C89B3C] text-black font-bold px-2 py-1 rounded"
-                      >
-                        + Seguir
-                      </button>
-                    )}
-                    <button 
-                      onClick={() => sendFriendRequestAction(player.id)}
-                      className="text-[10px] border border-[#C89B3C] text-[#C89B3C] px-2 py-1 rounded"
-                      title="Enviar Pedido de Amizade"
-                    >
-                      + Amigo
-                    </button>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      )}
-
 
 
       {/* Stream do Feed com Comentários e Exclusão */}
@@ -420,7 +371,28 @@ export default function FeedClientView({
               <div className="post-footer">
                 <button 
                   className={`post-action-btn ${isLiked ? 'liked' : ''}`}
-                  onClick={() => toggleLikeAction(post.id)}
+                  onClick={async () => {
+                    // Optimistic Update for UI responsiveness
+                    const updatedPosts = localPosts.map(p => {
+                      if (p.id === post.id) {
+                        const isLiked = p.post_likes?.some((like: any) => like.profile_id === currentUserId)
+                        let newLikes = p.post_likes ? [...p.post_likes] : []
+                        
+                        if (isLiked) {
+                          newLikes = newLikes.filter((like: any) => like.profile_id !== currentUserId)
+                        } else {
+                          newLikes.push({ profile_id: currentUserId })
+                        }
+                        
+                        return { ...p, post_likes: newLikes }
+                      }
+                      return p
+                    })
+                    setLocalPosts(updatedPosts)
+                    
+                    // Background Server Request
+                    await toggleLikeAction(post.id)
+                  }}
                 >
                   <span className="action-icon">
                     <i className={isLiked ? "fa-solid fa-heart text-red-500" : "fa-regular fa-heart"}></i>

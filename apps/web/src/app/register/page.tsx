@@ -10,6 +10,7 @@ export default function RegisterPage() {
     password: '',
     username: '',
     displayName: '',
+    region: 'BR', // Default region
   })
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
@@ -151,6 +152,33 @@ export default function RegisterPage() {
               placeholder="••••••••"
               style={{ width: '100%', backgroundColor: 'rgba(11, 14, 20, 0.85)', border: '1px solid #263045', borderRadius: '8px', padding: '10px 14px', fontSize: '0.9rem', color: '#FFF', outline: 'none', boxSizing: 'border-box' }}
             />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', color: '#C89B3C', marginBottom: '6px', fontFamily: "'Cinzel', serif" }}>
+              Região
+            </label>
+            <select
+              value={formData.region}
+              onChange={(e) => setFormData({ ...formData, region: e.target.value })}
+              required
+              style={{
+                width: '100%',
+                padding: '10px 14px',
+                backgroundColor: 'rgba(11, 14, 20, 0.85)',
+                border: '1px solid #263045',
+                borderRadius: '8px',
+                color: '#FFF',
+                fontSize: '0.9rem',
+                outline: 'none',
+                cursor: 'pointer'
+              }}
+            >
+              <option value="BR">Américas (BR)</option>
+              <option value="US">Américas (US)</option>
+              <option value="EU">Europa (EU)</option>
+              <option value="OC">Oceania (OC)</option>
+            </select>
           </div>
 
           <button

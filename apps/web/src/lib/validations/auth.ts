@@ -8,6 +8,7 @@ export const RegisterSchema = z.object({
     .max(30, 'O username pode ter no máximo 30 caracteres.')
     .regex(/^[a-zA-Z0-9_]+$/, 'O username deve conter apenas letras, números e underline (_).'),
   displayName: z.string().min(2, 'O nome de exibição deve ter no mínimo 2 caracteres.').max(50),
+  region: z.string().min(2).max(5),
 })
 
 export const LoginSchema = z.object({

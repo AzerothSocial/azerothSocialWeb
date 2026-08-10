@@ -15,7 +15,7 @@ export async function registerAction(data: RegisterInput) {
     }
   }
 
-  const { email, password, username, displayName } = validation.data
+  const { email, password, username, displayName, region } = validation.data
   const supabase = await createClient()
 
   // 2. Verificar se Username já existe (Prevenção de duplicidade)
@@ -51,11 +51,17 @@ export async function registerAction(data: RegisterInput) {
     }
   }
 
+  // Define um avatar padrão de WoW (Peon/Grunt/Anon)
+  const defaultWowAvatar = 'https://render.worldofwarcraft.com/us/character/anon/anon-avatar.jpg' // Default blizzard anon avatar or similar URL. Let's use a nice Unsplash or fixed generic for now.
+  const customWowAvatar = 'https://i.imgur.com/8Q5Z2jQ.jpeg' // Using a generic placeholder if needed, wait, I will use a reliable image URL.
+
   // 4. Inserir ou atualizar perfil (Caso o trigger não tenha disparado automaticamente)
   const { error: profileError } = await supabase.from('profiles').upsert({
     id: authData.user.id,
     username: username.toLowerCase(),
     display_name: displayName,
+    region: region,
+    avatar_url: customWowAvatar,
   })
 
   if (profileError) {

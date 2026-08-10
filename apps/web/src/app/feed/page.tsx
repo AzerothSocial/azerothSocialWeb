@@ -43,32 +43,17 @@ export default async function FeedPage({
     .select('*', { count: 'exact', head: true })
     .eq('follower_profile_id', user.id)
 
-  // 5. Obter lista de amigos (aceitos)
-  const { data: friendships } = await supabase
-    .from('friendships')
+  // 5. Obter lista de pessoas que o usuário segue
+  const { data: followsData } = await supabase
+    .from('follows')
     .select(`
-      id,
-      requester_profile_id,
-      addressee_profile_id,
-      requester:requester_profile_id (id, display_name, username, avatar_url),
-      addressee:addressee_profile_id (id, display_name, username, avatar_url)
+      following_profile_id,
+      following:following_profile_id (id, display_name, username, avatar_url)
     `)
-    .eq('status', 'accepted')
-    .or(`requester_profile_id.eq.${user.id},addressee_profile_id.eq.${user.id}`)
+    .eq('follower_profile_id', user.id)
 
-  const friendsList = friendships?.map(f => {
-    return f.requester_profile_id === user.id ? f.addressee : f.requester
-  }) || []
-
-  // 6. Obter solicitações pendentes
-  const { data: pendingRequests } = await supabase
-    .from('friendships')
-    .select(`
-      id,
-      requester:requester_profile_id (id, display_name, username, avatar_url)
-    `)
-    .eq('addressee_profile_id', user.id)
-    .eq('status', 'pending')
+  const friendsList = followsData?.map(f => f.following) || []
+  const pendingRequests: any[] = []
 
   // 7. Obter sugestões de jogadores
   const { data: suggestedPlayers } = await supabase
@@ -85,8 +70,10 @@ export default async function FeedPage({
 
   const followingIds = userFollows?.map(f => f.following_profile_id) || []
 
-  // 9. Filtragem do Feed (Exclusivamente pessoas seguidas + próprio usuário)
+  // 9. Filtragem do Feed (Pessoas seguidas + próprio usuário OR Anúncios da mesma região)
   const allowedAuthors = [user.id, ...followingIds]
+  const userRegion = profile?.region || 'BR'
+  
   const { data: posts } = await supabase
     .from('posts')
     .select(`
@@ -97,7 +84,7 @@ export default async function FeedPage({
       comments (id, content, created_at, profiles:author_profile_id(display_name, username, avatar_url))
     `)
     .is('deleted_at', null)
-    .in('author_profile_id', allowedAuthors)
+    .or(`author_profile_id.in.(${allowedAuthors.join(',')}),and(post_type.in.(guild_recruitment,live_promo),region.eq.${userRegion})`)
     .order('created_at', { ascending: false })
 
   const mainCharacter = characters?.find(c => c.id === profile?.main_character_id) || characters?.[0]
@@ -178,12 +165,9 @@ export default async function FeedPage({
           </div>
 
           <nav className="side-menu">
-            <a href="/feed" className={`menu-item ${activeFilter === 'all' ? 'active' : ''}`}>
-              <span className="icon">📰</span> Meu Feed
-            </a>
-            <a href="/feed?filter=following" className={`menu-item ${activeFilter === 'following' ? 'active' : ''}`}>
-              <span className="icon">👥</span> Feed de Amigos
-            </a>
+            <Link href="/feed" className={`menu-item ${activeFilter === 'all' ? 'active' : ''}`} style={{ textDecoration: 'none' }}>
+              <span className="icon">🌍</span> Meu Feed
+            </Link>
             <a href="/settings" className="menu-item">
               <span className="icon">⚙️</span> Gerenciar Personagens ({characters?.length || 0})
             </a>
@@ -220,25 +204,51 @@ export default async function FeedPage({
             </a>
           </div>
 
-          {/* Lista de Amigos Reais do Grafo Social */}
+          {/* Sugestões de Jogadores para Seguir */}
+          {suggestedPlayers && suggestedPlayers.length > 0 && (
+            <div className="widget-box mb-4">
+              <div className="widget-header">
+                <h4><i className="fa-solid fa-[#C89B3C] fa-compass"></i> Sugestões para Seguir</h4>
+              </div>
+              <ul className="friends-list" style={{ marginTop: '10px' }}>
+                {suggestedPlayers.map((player) => (
+                  <li key={player.id} className="friend-item" style={{ marginBottom: '12px', alignItems: 'center' }}>
+                    <Link href={`/@${player.username}`} style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, textDecoration: 'none', color: 'inherit' }}>
+                      <div className="avatar-wrapper" style={{ width: '32px', height: '32px' }}>
+                        <img src={player.avatar_url || "https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=150&auto=format&fit=crop&q=80"} alt="Avatar" style={{ borderRadius: '4px', width: '100%', height: '100%', objectFit: 'cover' }} />
+                      </div>
+                      <div className="friend-details">
+                        <span className="friend-name" style={{ fontSize: '0.8rem' }}>{player.display_name}</span>
+                        <span className="friend-playing" style={{ fontSize: '0.7rem' }}>@{player.username}</span>
+                      </div>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Quem você segue (Follows) */}
           <div className="widget-box">
             <div className="widget-header">
-              <h4>👥 Lista de Amigos ({friendsList.length})</h4>
+              <h4>👥 Quem você segue ({friendsList.length})</h4>
             </div>
             {friendsList.length === 0 ? (
-              <p className="text-xs text-slate-400">Nenhum amigo adicionado ainda.</p>
+              <p className="text-xs text-slate-400">Você ainda não segue ninguém.</p>
             ) : (
               <ul className="friends-list">
                 {friendsList.map((friend: any) => (
                   <li key={friend.id} className="friend-item">
-                    <div className="avatar-wrapper">
-                      <img src={friend.avatar_url || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80"} alt="Friend" />
-                      <span className="status-dot online"></span>
-                    </div>
-                    <div className="friend-details">
-                      <span className="friend-name">{friend.display_name}</span>
-                      <span className="friend-playing">@{friend.username}</span>
-                    </div>
+                    <Link href={`/@${friend.username}`} style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%', textDecoration: 'none', color: 'inherit' }}>
+                      <div className="avatar-wrapper">
+                        <img src={friend.avatar_url || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80"} alt="Friend" />
+                        <span className="status-dot online"></span>
+                      </div>
+                      <div className="friend-details">
+                        <span className="friend-name">{friend.display_name}</span>
+                        <span className="friend-playing">@{friend.username}</span>
+                      </div>
+                    </Link>
                   </li>
                 ))}
               </ul>
