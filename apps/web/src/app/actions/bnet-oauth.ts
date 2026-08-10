@@ -1,11 +1,18 @@
 'use server'
 
 import { redirect } from 'next/navigation'
+import { headers } from 'next/headers'
 import crypto from 'crypto'
 
 export async function loginWithBattleNetAction() {
+  const headersList = await headers()
+  const host = headersList.get('x-forwarded-host') || headersList.get('host')
+  const protocol = headersList.get('x-forwarded-proto') || (host?.includes('localhost') ? 'http' : 'https')
+  const origin = host ? `${protocol}://${host}` : null
+
   const clientId = process.env.BNET_CLIENT_ID
-  const redirectUri = encodeURIComponent(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/auth/bnet/callback`)
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.URL || origin || 'http://localhost:3000'
+  const redirectUri = encodeURIComponent(`${baseUrl}/api/auth/bnet/callback`)
   
   if (!clientId || clientId === 'seu_client_id_aqui') {
     return { 

@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import FeedClientView from './FeedClientView'
 import UserHeader from '@/components/UserHeader'
 import { getClassColor } from '@/lib/wow-colors'
+import Link from 'next/link'
 
 export default async function FeedPage({
   searchParams,

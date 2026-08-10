@@ -11,7 +11,7 @@ export async function GET(request: Request) {
 
   const clientId = process.env.BNET_CLIENT_ID
   const clientSecret = process.env.BNET_CLIENT_SECRET
-  const redirectUri = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/auth/bnet/callback`
+  const redirectUri = `${origin}/api/auth/bnet/callback`
 
   if (!clientId || !clientSecret) {
     return NextResponse.redirect(`${origin}/settings?error=missing_bnet_credentials`)
