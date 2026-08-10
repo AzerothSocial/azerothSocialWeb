@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { addCharacterAction, setMainCharacterAction } from '@/app/actions/character'
 import { createPostAction, toggleLikeAction, deletePostAction, addCommentAction, deleteCommentAction } from '@/app/actions/post'
 import { 
@@ -79,6 +79,11 @@ export default function FeedClientView({
   const [selectedCharacterId, setSelectedCharacterId] = useState<string>('')
   const [showAddCharModal, setShowAddCharModal] = useState(false)
   const [isPosting, setIsPosting] = useState(false)
+  const [localPosts, setLocalPosts] = useState<Post[]>(posts)
+
+  useEffect(() => {
+    setLocalPosts(posts)
+  }, [posts])
 
   // Função helper para extrair ID do YouTube e retornar URL do Embed estritamente
   const getYouTubeEmbedUrl = (mediaUrl: string | null | undefined, contentText: string) => {
@@ -279,7 +284,7 @@ export default function FeedClientView({
 
       {/* Stream do Feed com Comentários e Exclusão */}
       <div className="posts-stream space-y-4">
-        {posts.map((post) => {
+        {localPosts.map((post) => {
           const isLiked = post.post_likes?.some((like) => like.profile_id === currentUserId)
           const likesCount = post.post_likes?.length || 0
           const isAuthor = post.author_profile_id === currentUserId
