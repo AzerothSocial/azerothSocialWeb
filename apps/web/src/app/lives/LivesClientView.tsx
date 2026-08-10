@@ -154,7 +154,7 @@ export default function LivesClientView({
 
                     <div className="flex items-center gap-2 pt-2 border-t border-[#263045]">
                       <img 
-                        src={live.profiles?.avatar_url || "https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=150&auto=format&fit=crop&q=80"} 
+                        src={live.profiles?.avatar_url || "/images/avatar.png"} 
                         alt="Streamer" 
                         className="w-6 h-6 rounded-full"
                       />
@@ -202,7 +202,7 @@ export default function LivesClientView({
               {friendsList.map((friend: any) => (
                 <li key={friend.id} className="friend-item">
                   <div className="avatar-wrapper">
-                    <img src={friend.avatar_url || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80"} alt="Friend" />
+                    <img src={friend.avatar_url || "/images/avatar.png"} alt="Friend" />
                     <span className="status-dot online"></span>
                   </div>
                   <div className="friend-details">

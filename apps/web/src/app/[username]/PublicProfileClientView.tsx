@@ -82,9 +82,9 @@ export default function PublicProfileClientView({
             
             <div style={{ display: 'flex', alignItems: 'flex-end', gap: '16px' }}>
               <img 
-                src={targetProfile.avatar_url || 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=150&auto=format&fit=crop&q=80'} 
+                src={targetProfile.avatar_url || '/images/avatar.png'} 
                 onError={(e) => {
-                  (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=150&auto=format&fit=crop&q=80'
+                  (e.target as HTMLImageElement).src = '/images/avatar.png'
                 }}
                 alt="Avatar" 
                 style={{ width: '90px', height: '90px', borderRadius: '50%', border: '3px solid #C89B3C', objectFit: 'cover', backgroundColor: '#0B0E14' }} 
@@ -363,7 +363,7 @@ export default function PublicProfileClientView({
                 <div key={post.id} style={{ backgroundColor: '#0B0E14', border: '1px solid #263045', borderRadius: '12px', padding: '16px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
                     <img 
-                      src={post.profiles?.avatar_url || 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=150&auto=format&fit=crop&q=80'} 
+                      src={post.profiles?.avatar_url || '/images/avatar.png'} 
                       alt="Avatar" 
                       style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover' }} 
                     />

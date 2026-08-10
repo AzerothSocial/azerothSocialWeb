@@ -354,7 +354,7 @@ export default function GuildsClientView({
               {friendsList.map((friend: any) => (
                 <li key={friend.id} className="friend-item">
                   <div className="avatar-wrapper">
-                    <img src={friend.avatar_url || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80"} alt="Friend" />
+                    <img src={friend.avatar_url || "/images/avatar.png"} alt="Friend" />
                     <span className="status-dot online"></span>
                   </div>
                   <div className="friend-details">
@@ -731,7 +731,7 @@ export default function GuildsClientView({
                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                           <div className="flex items-center gap-3.5">
                             <img
-                              src={applicant?.avatar_url || "https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=150&auto=format&fit=crop&q=80"}
+                              src={applicant?.avatar_url || "/images/avatar.png"}
                               alt="Avatar"
                               className="w-12 h-12 rounded-xl border border-[#263045] object-cover shrink-0 shadow-sm"
                             />

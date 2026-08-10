@@ -46,12 +46,12 @@ export default async function LivesPage({
 
   // 4. Métricas Sociais (Seguidores & Seguindo)
   const { count: followersCount } = await supabase
-    .from('user_follows')
+    .from('follows')
     .select('*', { count: 'exact', head: true })
     .eq('following_profile_id', user.id)
 
   const { count: followingCount } = await supabase
-    .from('user_follows')
+    .from('follows')
     .select('*', { count: 'exact', head: true })
     .eq('follower_profile_id', user.id)
 
@@ -59,14 +59,14 @@ export default async function LivesPage({
   const { data: friendships } = await supabase
     .from('friendships')
     .select(`
-      user_id_1,
-      user_id_2,
-      profile1:user_id_1 (id, display_name, username, avatar_url),
-      profile2:user_id_2 (id, display_name, username, avatar_url)
+      requester_profile_id,
+      addressee_profile_id,
+      profile1:requester_profile_id (id, display_name, username, avatar_url),
+      profile2:addressee_profile_id (id, display_name, username, avatar_url)
     `)
-    .or(`user_id_1.eq.${user.id},user_id_2.eq.${user.id}`)
+    .or(`requester_profile_id.eq.${user.id},addressee_profile_id.eq.${user.id}`)
 
-  const friendsList = friendships?.map(f => f.user_id_1 === user.id ? f.profile2 : f.profile1).filter(Boolean) || []
+  const friendsList = friendships?.map(f => f.requester_profile_id === user.id ? f.profile2 : f.profile1).filter(Boolean) || []
   const mainCharacter = characters?.find(c => c.id === profile?.main_character_id) || characters?.[0]
 
   return (
@@ -82,7 +82,7 @@ export default async function LivesPage({
             <div className="banner-bg"></div>
             <div className="widget-body">
               <img 
-                src={profile?.avatar_url || "https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=150&auto=format&fit=crop&q=80"} 
+                src={profile?.avatar_url || "/images/avatar.png"} 
                 alt="Avatar" 
                 className="avatar-lg" 
               />

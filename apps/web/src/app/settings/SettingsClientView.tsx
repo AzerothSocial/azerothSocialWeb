@@ -126,7 +126,7 @@ export default function SettingsClientView({ profile, initialCharacters, initial
   // Perfil State
   const [displayName, setDisplayName] = useState(profile?.display_name || '')
   const [bio, setBio] = useState(profile?.bio || '')
-  const [avatarUrl, setAvatarUrl] = useState(profile?.avatar_url || 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=150&auto=format&fit=crop&q=80')
+  const [avatarUrl, setAvatarUrl] = useState(profile?.avatar_url || '/images/avatar.png')
   const [profileMsg, setProfileMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
   const [profileLoading, setProfileLoading] = useState(false)
   const [uploadingAvatar, setUploadingAvatar] = useState(false)
@@ -245,9 +245,9 @@ export default function SettingsClientView({ profile, initialCharacters, initial
             <div style={{ display: 'flex', alignItems: 'flex-end', gap: '16px' }}>
               <div style={{ position: 'relative', width: '80px', height: '80px' }}>
                 <img 
-                  src={avatarUrl || 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=150&auto=format&fit=crop&q=80'} 
+                  src={avatarUrl || '/images/avatar.png'} 
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=150&auto=format&fit=crop&q=80'
+                    (e.target as HTMLImageElement).src = '/images/avatar.png'
                   }}
                   alt="Avatar" 
                   style={{ width: '80px', height: '80px', borderRadius: '50%', border: '3px solid #C89B3C', objectFit: 'cover', backgroundColor: '#0B0E14' }} 

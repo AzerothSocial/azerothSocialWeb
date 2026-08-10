@@ -9,7 +9,7 @@ interface UserHeaderProps {
   profile: any
 }
 
-const DEFAULT_AVATAR = "https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=150&auto=format&fit=crop&q=80"
+const DEFAULT_AVATAR = "/images/avatar.png"
 
 export default function UserHeader({ profile }: UserHeaderProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false)

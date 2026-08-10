@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { getNotificationsAction, markNotificationsReadAction } from '@/app/actions/notifications'
 
-const DEFAULT_AVATAR = "https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=150&auto=format&fit=crop&q=80"
+const DEFAULT_AVATAR = "/images/avatar.png"
 
 function formatTimeAgo(dateString: string) {
   try {

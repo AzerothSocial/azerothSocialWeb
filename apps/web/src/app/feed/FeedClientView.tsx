@@ -178,7 +178,7 @@ export default function FeedClientView({
             {pendingRequests.map((req) => (
               <div key={req.id} className="flex justify-between items-center bg-[#0B0E14] p-3 rounded border border-[#263045]">
                 <div className="flex items-center gap-3">
-                  <img src={req.requester?.avatar_url || "https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=150&auto=format&fit=crop&q=80"} alt="Avatar" className="avatar-sm" />
+                  <img src={req.requester?.avatar_url || "/images/avatar.png"} alt="Avatar" className="avatar-sm" />
                   <div>
                     <span className="font-bold text-sm block">{req.requester?.display_name}</span>
                     <span className="text-xs text-slate-400">@{req.requester?.username}</span>
@@ -208,7 +208,7 @@ export default function FeedClientView({
       <div className="create-post-card">
         <div className="creator-header">
           <img 
-            src={profile?.avatar_url || "https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=150&auto=format&fit=crop&q=80"} 
+            src={profile?.avatar_url || "/images/avatar.png"} 
             alt="Avatar" 
             className="avatar-sm" 
           />
@@ -310,7 +310,7 @@ export default function FeedClientView({
                 <div className="author-info">
                   <Link href={post.profiles?.username ? `/@${post.profiles.username}` : '#'} style={{ textDecoration: 'none', color: 'inherit' }}>
                     <img 
-                      src={post.profiles?.avatar_url || "https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=150&auto=format&fit=crop&q=80"} 
+                      src={post.profiles?.avatar_url || "/images/avatar.png"} 
                       alt="Avatar" 
                       className="avatar-md" 
                       style={{ cursor: 'pointer' }}
@@ -420,7 +420,7 @@ export default function FeedClientView({
                   {/* Formulário de Novo Comentário (Avatar à esquerda + Caixa + Botão em Linha Única à direita) */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%' }}>
                     <img 
-                      src={profile?.avatar_url || "https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=150&auto=format&fit=crop&q=80"} 
+                      src={profile?.avatar_url || "/images/avatar.png"} 
                       alt="Meu Avatar" 
                       style={{ width: '40px', height: '40px', minWidth: '40px', minHeight: '40px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
                     />
@@ -457,7 +457,7 @@ export default function FeedClientView({
                           <div key={c.id} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
                             {/* Avatar do Autor do Comentário */}
                             <img 
-                              src={(c.profiles as any)?.avatar_url || "https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=150&auto=format&fit=crop&q=80"} 
+                              src={(c.profiles as any)?.avatar_url || "/images/avatar.png"} 
                               alt="Avatar" 
                               style={{ width: '36px', height: '36px', minWidth: '36px', minHeight: '36px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0, marginTop: '2px' }}
                             />

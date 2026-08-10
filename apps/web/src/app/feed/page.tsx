@@ -105,7 +105,7 @@ export default async function FeedPage({
             <div className="banner-bg"></div>
             <div className="widget-body">
               <img 
-                src={profile?.avatar_url || "https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=150&auto=format&fit=crop&q=80"} 
+                src={profile?.avatar_url || "/images/avatar.png"} 
                 alt="Avatar" 
                 className="avatar-lg" 
               />
@@ -216,7 +216,7 @@ export default async function FeedPage({
                   <li key={player.id} className="friend-item" style={{ marginBottom: '12px', alignItems: 'center' }}>
                     <Link href={`/@${player.username}`} style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, textDecoration: 'none', color: 'inherit' }}>
                       <div className="avatar-wrapper" style={{ width: '32px', height: '32px' }}>
-                        <img src={player.avatar_url || "https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=150&auto=format&fit=crop&q=80"} alt="Avatar" style={{ borderRadius: '4px', width: '100%', height: '100%', objectFit: 'cover' }} />
+                        <img src={player.avatar_url || "/images/avatar.png"} alt="Avatar" style={{ borderRadius: '4px', width: '100%', height: '100%', objectFit: 'cover' }} />
                       </div>
                       <div className="friend-details">
                         <span className="friend-name" style={{ fontSize: '0.8rem' }}>{player.display_name}</span>
@@ -242,7 +242,7 @@ export default async function FeedPage({
                   <li key={friend.id} className="friend-item">
                     <Link href={`/@${friend.username}`} style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%', textDecoration: 'none', color: 'inherit' }}>
                       <div className="avatar-wrapper">
-                        <img src={friend.avatar_url || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80"} alt="Friend" />
+                        <img src={friend.avatar_url || "/images/avatar.png"} alt="Friend" />
                         <span className="status-dot online"></span>
                       </div>
                       <div className="friend-details">
