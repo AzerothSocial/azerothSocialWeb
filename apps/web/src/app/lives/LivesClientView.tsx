@@ -60,7 +60,11 @@ export default function LivesClientView({
   const getStreamEmbedUrl = (url: string, platform: string) => {
     if (platform === 'twitch') {
       const channel = url.split('/').pop()?.split('?')[0]
-      if (channel) return `https://player.twitch.tv/?channel=${channel}&parent=localhost`
+      if (channel) {
+        // Use window.location.hostname in client to support both localhost and Netlify
+        const parent = typeof window !== 'undefined' ? window.location.hostname : 'localhost'
+        return `https://player.twitch.tv/?channel=${channel}&parent=${parent}`
+      }
     }
     if (platform === 'youtube') {
       const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
