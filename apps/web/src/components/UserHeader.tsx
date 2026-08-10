@@ -88,6 +88,7 @@ export default function UserHeader({ profile }: UserHeaderProps) {
               </div>
 
               <Link 
+                prefetch={false}
                 href={profile?.username ? `/@${profile.username}` : '/settings'}
                 onClick={() => setDropdownOpen(false)}
                 style={{

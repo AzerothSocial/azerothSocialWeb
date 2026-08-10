@@ -594,11 +594,6 @@ export default function SettingsClientView({ profile, initialCharacters, initial
                 const filteredMounts = [...mountsData]
                   .filter(m => m.name.toLowerCase().includes(mountSearchQuery.toLowerCase()))
                   .sort((a, b) => {
-                    const isAPublic = publicMountsList.some(pm => pm.mount_id === a.id)
-                    const isBPublic = publicMountsList.some(pm => pm.mount_id === b.id)
-
-                    if (isAPublic && !isBPublic) return -1
-                    if (!isAPublic && isBPublic) return 1
                     return a.name.localeCompare(b.name)
                   })
 

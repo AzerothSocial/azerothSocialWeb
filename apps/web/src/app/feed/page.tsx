@@ -56,20 +56,22 @@ export default async function FeedPage({
   const friendsList = followsData?.map(f => f.following) || []
   const pendingRequests: any[] = []
 
-  // 7. Obter sugestões de jogadores
-  const { data: suggestedPlayers } = await supabase
-    .from('profiles')
-    .select('id, display_name, username, avatar_url')
-    .neq('id', user.id)
-    .limit(5)
-
-  // 8. Obter a lista de IDs seguidos
+  // 7. Obter a lista de IDs seguidos
   const { data: userFollows } = await supabase
     .from('follows')
     .select('following_profile_id')
     .eq('follower_profile_id', user.id)
 
   const followingIds = userFollows?.map(f => f.following_profile_id) || []
+
+  // 8. Obter sugestões de jogadores (excluindo usuário atual e os que já segue)
+  const excludeIds = [user.id, ...followingIds]
+  
+  const { data: suggestedPlayers } = await supabase
+    .from('profiles')
+    .select('id, display_name, username, avatar_url')
+    .not('id', 'in', `(${excludeIds.join(',')})`)
+    .limit(5)
 
   // 9. Filtragem do Feed (Pessoas seguidas + próprio usuário OR Anúncios da mesma região)
   const allowedAuthors = [user.id, ...followingIds]
@@ -214,7 +216,7 @@ export default async function FeedPage({
               <ul className="friends-list" style={{ marginTop: '10px' }}>
                 {suggestedPlayers.map((player) => (
                   <li key={player.id} className="friend-item" style={{ marginBottom: '12px', alignItems: 'center' }}>
-                    <Link href={`/@${player.username}`} style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, textDecoration: 'none', color: 'inherit' }}>
+                    <Link prefetch={false} href={`/@${player.username}`} style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, textDecoration: 'none', color: 'inherit' }}>
                       <div className="avatar-wrapper" style={{ width: '32px', height: '32px' }}>
                         <img src={player.avatar_url || "/images/avatar.png"} alt="Avatar" style={{ borderRadius: '4px', width: '100%', height: '100%', objectFit: 'cover' }} />
                       </div>
@@ -240,7 +242,7 @@ export default async function FeedPage({
               <ul className="friends-list">
                 {friendsList.map((friend: any) => (
                   <li key={friend.id} className="friend-item">
-                    <Link href={`/@${friend.username}`} style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%', textDecoration: 'none', color: 'inherit' }}>
+                    <Link prefetch={false} href={`/@${friend.username}`} style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%', textDecoration: 'none', color: 'inherit' }}>
                       <div className="avatar-wrapper">
                         <img src={friend.avatar_url || "/images/avatar.png"} alt="Friend" />
                         <span className="status-dot online"></span>

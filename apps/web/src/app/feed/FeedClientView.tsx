@@ -308,7 +308,7 @@ export default function FeedClientView({
               )}
               <div className="post-header">
                 <div className="author-info">
-                  <Link href={post.profiles?.username ? `/@${post.profiles.username}` : '#'} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <Link prefetch={false} href={post.profiles?.username ? `/@${post.profiles.username}` : '#'} style={{ textDecoration: 'none', color: 'inherit' }}>
                     <img 
                       src={post.profiles?.avatar_url || "/images/avatar.png"} 
                       alt="Avatar" 
@@ -318,7 +318,7 @@ export default function FeedClientView({
                   </Link>
                   <div>
                     <div className="author-title">
-                      <Link href={post.profiles?.username ? `/@${post.profiles.username}` : '#'} style={{ textDecoration: 'none', color: 'inherit' }}>
+                      <Link prefetch={false} href={post.profiles?.username ? `/@${post.profiles.username}` : '#'} style={{ textDecoration: 'none', color: 'inherit' }}>
                         <span className="author-name" style={{ cursor: 'pointer' }}>{post.profiles?.display_name || 'Jogador'}</span>
                       </Link>
                       {post.characters && (
