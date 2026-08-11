@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { followUserAction, unfollowUserAction } from '@/app/actions/social'
 import { getClassColor } from '@/lib/wow-colors'
 
+import EquipmentInspectModal from '@/components/EquipmentInspectModal'
+
 interface Character {
   id: string
   name: string
@@ -19,6 +21,8 @@ interface Character {
   visibility: 'public' | 'friends' | 'private'
   render_url?: string
   is_favorite_transmog?: boolean
+  active_title?: string
+  achievement_points?: number
 }
 
 interface PublicMount {
@@ -50,6 +54,9 @@ export default function PublicProfileClientView({
   const [activeTab, setActiveTab] = useState<'characters' | 'mounts' | 'posts'>('characters')
   const [isFollowing, setIsFollowing] = useState(isFollowingInitial)
   const [followLoading, setFollowLoading] = useState(false)
+  
+  // Inspect Modal State
+  const [inspectChar, setInspectChar] = useState<Character | null>(null)
 
   // Character sorting (Main character first)
   const mainCharacter = characters.find(c => c.id === targetProfile.main_character_id) || characters[0]
@@ -171,9 +178,15 @@ export default function PublicProfileClientView({
                     </span>
                     <span style={{ fontSize: '0.8rem', color: '#CBD5E1' }}>Nível {mainCharacter.level}</span>
                   </div>
+                  {mainCharacter.active_title && (
+                    <div style={{ fontSize: '0.85rem', color: '#C89B3C', fontStyle: 'italic', marginBottom: '2px' }}>
+                      {mainCharacter.active_title}
+                    </div>
+                  )}
                   <div style={{ fontSize: '0.8rem', color: '#94A3B8' }}>
                     {mainCharacter.class_name} · {mainCharacter.realm} ({mainCharacter.region}) 
                     {mainCharacter.guild_name && <span style={{ color: '#F5D166', marginLeft: '6px' }}>&lt;{mainCharacter.guild_name}&gt;</span>}
+                    {mainCharacter.achievement_points ? <span style={{ marginLeft: '8px', color: '#FFF' }}><i className="fa-solid fa-trophy" style={{ color: '#F5D166', marginRight: '4px' }}></i>{mainCharacter.achievement_points}</span> : null}
                   </div>
                 </div>
               </div>
@@ -344,9 +357,39 @@ export default function PublicProfileClientView({
                     <p style={{ fontSize: '0.8rem', color: '#94A3B8', marginBottom: '4px' }}>
                       {char.class_name} · {char.realm} ({char.region})
                     </p>
-                    <p style={{ fontSize: '0.8rem', color: '#94A3B8' }}>
+                    <p style={{ fontSize: '0.8rem', color: '#94A3B8', marginBottom: '4px' }}>
                       Guilda: <strong style={{ color: '#F5D166' }}>{char.guild_name ? `<${char.guild_name}>` : 'Nenhuma'}</strong>
                     </p>
+                    {char.active_title && (
+                      <p style={{ fontSize: '0.8rem', color: '#C89B3C', fontStyle: 'italic', marginBottom: '4px' }}>
+                        {char.active_title}
+                      </p>
+                    )}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '12px' }}>
+                      <span style={{ fontSize: '0.85rem', color: '#FFF' }}>
+                        <i className="fa-solid fa-trophy" style={{ color: '#F5D166', marginRight: '4px' }}></i>
+                        {char.achievement_points || 0}
+                      </span>
+                      <button 
+                        onClick={() => setInspectChar(char)}
+                        style={{
+                          backgroundColor: '#1E293B',
+                          color: '#F5D166',
+                          border: '1px solid #334155',
+                          borderRadius: '6px',
+                          padding: '4px 10px',
+                          fontSize: '0.75rem',
+                          cursor: 'pointer',
+                          fontWeight: 'bold',
+                          transition: 'all 0.2s',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px'
+                        }}
+                      >
+                        <i className="fa-solid fa-magnifying-glass"></i> Inspecionar
+                      </button>
+                    </div>
                   </div>
                 )
               })}
@@ -449,6 +492,18 @@ export default function PublicProfileClientView({
             </div>
           )}
         </div>
+      )}
+
+      {/* Modal de Inspeção de Equipamento */}
+      {inspectChar && (
+        <EquipmentInspectModal
+          isOpen={!!inspectChar}
+          onClose={() => setInspectChar(null)}
+          region={inspectChar.region}
+          realm={inspectChar.realm}
+          charName={inspectChar.name}
+          renderUrl={inspectChar.render_url}
+        />
       )}
 
     </div>

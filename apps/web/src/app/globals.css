@@ -1170,3 +1170,22 @@ i.fa-regular {
   position: relative;
   z-index: 10;
 }
+
+/* Wowhead Tooltip Fix */
+body.inspect-modal-open .wowhead-tooltip { 
+  position: fixed !important; 
+  top: 60px !important; 
+  left: calc(50vw + 570px) !important; 
+  right: auto !important;
+  z-index: 9999999 !important; 
+  pointer-events: none; 
+}
+
+@media (max-width: 1450px) {
+  /* Se a tela não tiver espaço para o tooltip ficar de fora, colocamos na ponta direita dentro da tela */
+  body.inspect-modal-open .wowhead-tooltip {
+    left: auto !important;
+    right: 20px !important;
+  }
+}
+

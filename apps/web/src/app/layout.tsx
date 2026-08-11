@@ -28,6 +28,8 @@ export default function RootLayout({
     <html lang="pt-BR">
       <head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+        <script dangerouslySetInnerHTML={{ __html: `var whTooltips = {colorLinks: false, iconizeLinks: false, renameLinks: false};` }} />
+        <script src="https://wow.zamimg.com/widgets/power.js" async />
       </head>
       <body className={`${cinzel.variable} ${inter.variable} antialiased bg-[#0F1218] text-[#D8E2EC] font-sans border-box`}>
         <TransitionProvider>

@@ -69,16 +69,30 @@ export async function autoSyncCharactersAction() {
 
       const charName = char.name.toLowerCase()
 
+      let guildName = null
+      let ilevel = char.ilevel || 0
+      let renderUrl = char.render_url || null
+      let activeTitle = char.active_title || null
+      let achievementPoints = char.achievement_points || 0
+
       const res = await fetch(`https://us.api.blizzard.com/profile/wow/character/${realmSlug}/${charName}?namespace=profile-us&locale=en_US`, {
         headers: { 'Authorization': `Bearer ${accessToken}` },
         // Sem cache, queremos os dados frescos
         cache: 'no-store'
       })
 
-      let renderUrl = char.render_url;
-
       if (res.ok) {
         const charData = await res.json()
+        guildName = charData.guild?.name || null
+        ilevel = charData.equipped_item_level || char.ilevel
+        achievementPoints = charData.achievement_points || char.achievement_points
+        
+        if (charData.active_title?.display_string) {
+          let titleStr = charData.active_title.display_string
+          titleStr = titleStr.replace('{name}', charData.name || char.name)
+          titleStr = titleStr.replace('%s', charData.name || char.name)
+          activeTitle = titleStr
+        }
         
         // Busca a renderização 3D do personagem
         const mediaRes = await fetch(`https://us.api.blizzard.com/profile/wow/character/${realmSlug}/${charName}/character-media?namespace=profile-us&locale=en_US`, {
@@ -106,9 +120,11 @@ export async function autoSyncCharactersAction() {
           visibility: char.visibility,
           // Campos que queremos atualizar:
           level: charData.level || char.level,
-          ilevel: charData.equipped_item_level || char.ilevel || 0,
-          guild_name: charData.guild?.name || null,
+          ilevel: ilevel,
+          guild_name: guildName,
           render_url: renderUrl,
+          active_title: activeTitle,
+          achievement_points: achievementPoints,
           updated_at: new Date().toISOString()
         }
       } else {

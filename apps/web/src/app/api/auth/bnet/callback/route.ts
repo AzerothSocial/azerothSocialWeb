@@ -65,6 +65,8 @@ export async function GET(request: Request) {
             let guildName = null
             let ilevel = 0
             let renderUrl = null
+            let activeTitle = null
+            let achievementPoints = 0
             try {
               const realmSlug = char.realm?.slug
               const charName = char.name?.toLowerCase()
@@ -77,6 +79,14 @@ export async function GET(request: Request) {
                   const charData = await charRes.json()
                   guildName = charData.guild?.name || null
                   ilevel = charData.equipped_item_level || 0
+                  achievementPoints = charData.achievement_points || 0
+                  
+                  if (charData.active_title?.display_string) {
+                    let titleStr = charData.active_title.display_string
+                    titleStr = titleStr.replace('{name}', charData.name || char.name)
+                    titleStr = titleStr.replace('%s', charData.name || char.name)
+                    activeTitle = titleStr
+                  }
                 }
 
                 // Busca a renderização 3D do personagem
@@ -108,6 +118,8 @@ export async function GET(request: Request) {
               guild_name: guildName,
               visibility: 'public',
               render_url: renderUrl,
+              active_title: activeTitle,
+              achievement_points: achievementPoints,
               updated_at: new Date().toISOString(),
             }
           })())
