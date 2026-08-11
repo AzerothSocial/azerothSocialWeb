@@ -16,7 +16,7 @@ export default async function FeedPage({
 
   // 1. Obter usuário logado
   const { data: { user } } = await supabase.auth.getUser()
-  
+
   if (!user) return null
 
   // 2. Obter perfil do usuário
@@ -66,7 +66,7 @@ export default async function FeedPage({
 
   // 8. Obter sugestões de jogadores (excluindo usuário atual e os que já segue)
   const excludeIds = [user.id, ...followingIds]
-  
+
   const { data: suggestedPlayers } = await supabase
     .from('profiles')
     .select('id, display_name, username, avatar_url')
@@ -76,7 +76,7 @@ export default async function FeedPage({
   // 9. Filtragem do Feed (Pessoas seguidas + próprio usuário OR Anúncios da mesma região)
   const allowedAuthors = [user.id, ...followingIds]
   const userRegion = profile?.region || 'BR'
-  
+
   const { data: posts } = await supabase
     .from('posts')
     .select(`
@@ -94,22 +94,22 @@ export default async function FeedPage({
 
   return (
     <div className="dark-theme bg-[#0B0E14] text-[#F0F4F8] min-h-screen font-sans">
-      
+
       {/* Header Superior Reutilizável com Dropdown de Avatar */}
       <UserHeader profile={profile} />
 
       {/* Container Principal do Layout */}
       <div className="app-layout">
-        
+
         {/* Sidebar Esquerda: Card de Identidade do Jogador */}
         <aside className="sidebar-left">
           <div className="user-card-widget">
             <div className="banner-bg"></div>
             <div className="widget-body">
-              <img 
-                src={profile?.avatar_url || "/images/avatar.png"} 
-                alt="Avatar" 
-                className="avatar-lg" 
+              <img
+                src={profile?.avatar_url || "/images/avatar.png"}
+                alt="Avatar"
+                className="avatar-lg"
               />
               <h3 className="profile-name">
                 {profile?.display_name} <span className="verified-badge" title="Jogador Verificado">✓</span>
@@ -124,10 +124,10 @@ export default async function FeedPage({
                 <div className="main-char-box">
                   <span className="main-tag">⭐ PERSONAGEM PRINCIPAL</span>
                   <div className="char-info" style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%' }}>
-                    <img 
-                      src={mainCharacter.faction === 'alliance' ? 'https://assets-bwa.worldofwarcraft.blizzard.com/dab2428aa2f51e140c9a.png' : 'https://assets-bwa.worldofwarcraft.blizzard.com/3edbc547ab318bd385b2.png'} 
-                      alt={mainCharacter.faction === 'alliance' ? 'Aliança' : 'Horda'} 
-                      style={{ width: '28px', height: '28px', objectFit: 'contain', flexShrink: 0 }} 
+                    <img
+                      src={mainCharacter.faction === 'alliance' ? 'https://assets-bwa.worldofwarcraft.blizzard.com/dab2428aa2f51e140c9a.png' : 'https://assets-bwa.worldofwarcraft.blizzard.com/3edbc547ab318bd385b2.png'}
+                      alt={mainCharacter.faction === 'alliance' ? 'Aliança' : 'Horda'}
+                      style={{ width: '28px', height: '28px', objectFit: 'contain', flexShrink: 0 }}
                     />
                     <div className="char-details" style={{ flex: 1, minWidth: 0 }}>
                       <div className="char-name-lvl" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
@@ -185,11 +185,11 @@ export default async function FeedPage({
 
         {/* Área Central Interativa (Feed) */}
         <main className="content-main">
-          <FeedClientView 
-            profile={profile} 
-            characters={characters || []} 
-            posts={posts || []} 
-            currentUserId={user.id} 
+          <FeedClientView
+            profile={profile}
+            characters={characters || []}
+            posts={posts || []}
+            currentUserId={user.id}
             pendingRequests={pendingRequests || []}
             suggestedPlayers={suggestedPlayers || []}
             followingIds={followingIds}
@@ -240,7 +240,7 @@ export default async function FeedPage({
           {/* Quem você segue (Follows) */}
           <div className="widget-box">
             <div className="widget-header">
-              <h4>👥 Quem você segue ({friendsList.length})</h4>
+              <h4> Seguindo ({friendsList.length})</h4>
             </div>
             {friendsList.length === 0 ? (
               <p className="text-xs text-slate-400">Você ainda não segue ninguém.</p>

@@ -119,7 +119,7 @@ export default function LivesClientView({
                   {/* Embed / Iframe da Stream */}
                   {embedUrl ? (
                     <div className="relative w-full overflow-hidden bg-black" style={{ paddingTop: '56.25%' }}>
-                      <iframe 
+                      <iframe
                         className="absolute top-0 left-0 w-full h-full"
                         src={embedUrl}
                         title={live.title}
@@ -142,9 +142,9 @@ export default function LivesClientView({
                           {live.title}
                         </h3>
                       </div>
-                      <a 
-                        href={live.stream_url} 
-                        target="_blank" 
+                      <a
+                        href={live.stream_url}
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="text-xs bg-[#263045] hover:bg-[#323f5b] text-white px-3 py-1.5 rounded flex items-center gap-1"
                       >
@@ -153,9 +153,9 @@ export default function LivesClientView({
                     </div>
 
                     <div className="flex items-center gap-2 pt-2 border-t border-[#263045]">
-                      <img 
-                        src={live.profiles?.avatar_url || "/images/avatar.png"} 
-                        alt="Streamer" 
+                      <img
+                        src={live.profiles?.avatar_url || "/images/avatar.png"}
+                        alt="Streamer"
                         className="w-6 h-6 rounded-full"
                       />
                       <span className="text-xs text-slate-300">
@@ -175,14 +175,14 @@ export default function LivesClientView({
         {/* Card Promover Live */}
         <div className="addon-status-card border-red-900/60 shadow-[0_0_15px_rgba(239,68,68,0.15)] relative overflow-hidden">
           <div className="absolute -top-10 -right-10 w-24 h-24 bg-red-600/20 rounded-full blur-xl pointer-events-none"></div>
-          
+
           <div className="status-header">
             <span className="status-icon bg-red-950/50 text-red-500 border-red-900"><i className="fa-solid fa-tower-broadcast"></i></span>
             <h4 className="text-red-400">Promover Transmissão</h4>
           </div>
           <p className="status-desc text-slate-300">Aumente sua audiência promovendo seu canal para jogadores de Azeroth.</p>
-          
-          <button 
+
+          <button
             onClick={() => setShowPromoteModal(true)}
             className="w-full mt-4 bg-red-600 hover:bg-red-500 text-white font-bold px-4 py-2.5 rounded-lg transition flex items-center justify-center gap-2"
           >
@@ -193,7 +193,7 @@ export default function LivesClientView({
         {/* Lista de Amigos */}
         <div className="widget-box">
           <div className="widget-header">
-            <h4><i className="fa-solid fa-user-group"></i> Lista de Amigos ({friendsList.length})</h4>
+            <h4><i className="fa-solid fa-user-group"></i> Seguindo ({friendsList.length})</h4>
           </div>
           {friendsList.length === 0 ? (
             <p className="text-xs text-slate-400">Nenhum amigo adicionado ainda.</p>
@@ -236,7 +236,7 @@ export default function LivesClientView({
                   <p className="text-xs text-slate-300">Ganhe visibilidade instantânea entre os jogadores da sua região</p>
                 </div>
               </div>
-              <button 
+              <button
                 onClick={() => setShowPromoteModal(false)}
                 className="w-9 h-9 rounded-xl bg-[#0B0E14] border border-[#263045] text-slate-400 hover:text-white transition flex items-center justify-center cursor-pointer hover:border-slate-500"
               >
@@ -262,11 +262,10 @@ export default function LivesClientView({
                         type="button"
                         key={id}
                         onClick={() => setNewLive({ ...newLive, platform: id })}
-                        className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition cursor-pointer font-bold text-xs ${
-                          selected
+                        className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition cursor-pointer font-bold text-xs ${selected
                             ? `${brandColor} shadow-lg shadow-black/50`
                             : 'bg-[#0B0E14] border-[#263045] text-slate-400 hover:border-slate-600'
-                        }`}
+                          }`}
                       >
                         <i className={`fa-brands ${icon} text-lg`}></i>
                         <span>{label}</span>
@@ -281,8 +280,8 @@ export default function LivesClientView({
                 <label className="block text-slate-300 font-bold mb-1.5 flex items-center gap-1.5">
                   <i className="fa-solid fa-heading text-red-400"></i> Título Chamativo da Live
                 </label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   required
                   value={newLive.title}
                   onChange={(e) => setNewLive({ ...newLive, title: e.target.value })}
@@ -298,8 +297,8 @@ export default function LivesClientView({
                   <label className="block text-slate-300 font-bold mb-1.5 flex items-center gap-1.5">
                     <i className="fa-solid fa-link text-red-400"></i> Link da Transmissão
                   </label>
-                  <input 
-                    type="url" 
+                  <input
+                    type="url"
                     required
                     value={newLive.streamUrl}
                     onChange={(e) => setNewLive({ ...newLive, streamUrl: e.target.value })}
@@ -311,7 +310,7 @@ export default function LivesClientView({
 
                 <div>
                   <label className="block text-slate-300 font-bold mb-1.5">Região Alvo</label>
-                  <select 
+                  <select
                     value={newLive.region}
                     onChange={(e) => setNewLive({ ...newLive, region: e.target.value })}
                     className="post-input text-xs"
@@ -327,7 +326,7 @@ export default function LivesClientView({
               {/* Descrição */}
               <div>
                 <label className="block text-slate-300 font-bold mb-1.5">Descrição da Gameplay / Conteúdo</label>
-                <textarea 
+                <textarea
                   value={newLive.description}
                   onChange={(e) => setNewLive({ ...newLive, description: e.target.value })}
                   placeholder="Venha acompanhar gameplay de Mage Frost e interagir no chat!"
@@ -338,14 +337,14 @@ export default function LivesClientView({
 
               {/* Rodapé com Ações */}
               <div className="flex justify-end items-center gap-3 pt-3 border-t border-[#263045]">
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   onClick={() => setShowPromoteModal(false)}
                   className="px-5 py-2.5 bg-[#0B0E14] border border-[#263045] text-slate-300 hover:text-white rounded-xl transition text-xs font-semibold cursor-pointer"
                 >
                   Cancelar
                 </button>
-                <button 
+                <button
                   type="submit"
                   disabled={isPromoting}
                   className="bg-red-600 hover:bg-red-500 text-white font-bold text-xs px-8 py-2.5 rounded-xl transition cursor-pointer disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-red-950/50"
