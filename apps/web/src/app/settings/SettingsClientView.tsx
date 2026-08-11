@@ -253,29 +253,33 @@ export default function SettingsClientView({ profile, initialCharacters, initial
                   alt="Avatar" 
                   style={{ width: '80px', height: '80px', borderRadius: '50%', border: '3px solid #C89B3C', objectFit: 'cover', backgroundColor: '#0B0E14' }} 
                 />
-                <button
-                  onClick={() => fileInputRef.current?.click()}
-                  style={{
-                    position: 'absolute',
-                    bottom: 0,
-                    right: 0,
-                    backgroundColor: '#C89B3C',
-                    color: '#000',
-                    border: '1px solid #FFF',
-                    borderRadius: '50%',
-                    width: '26px',
-                    height: '26px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                    fontSize: '0.75rem',
-                    boxShadow: '0 2px 6px rgba(0,0,0,0.6)'
-                  }}
-                  title="Alterar Imagem de Avatar"
-                >
-                  📷
-                </button>
+                {activeTab === 'profile' && (
+                  <button 
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={uploadingAvatar}
+                    style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      right: 0,
+                      backgroundColor: '#C89B3C',
+                      color: '#000',
+                      border: 'none',
+                      borderRadius: '50%',
+                      width: '32px',
+                      height: '32px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      fontSize: '0.75rem',
+                      boxShadow: '0 2px 6px rgba(0,0,0,0.6)',
+                      opacity: uploadingAvatar ? 0.5 : 1
+                    }}
+                    title="Alterar Imagem de Avatar"
+                  >
+                    <i className={uploadingAvatar ? "fa-solid fa-spinner fa-spin" : "fa-solid fa-camera"}></i>
+                  </button>
+                )}
               </div>
 
               <div style={{ marginBottom: '4px' }}>

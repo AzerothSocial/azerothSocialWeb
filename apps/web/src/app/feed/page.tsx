@@ -168,11 +168,17 @@ export default async function FeedPage({
           </div>
 
           <nav className="side-menu">
-            <Link href="/feed" className={`menu-item ${activeFilter === 'all' ? 'active' : ''}`} style={{ textDecoration: 'none' }}>
-              <span className="icon">🌍</span> Meu Feed
-            </Link>
+            <a href="/feed" className="menu-item active">
+              <span className="icon"><i className="fa-solid fa-newspaper"></i></span> Meu Feed
+            </a>
+            <a href="/guilds" className="menu-item">
+              <span className="icon"><i className="fa-solid fa-shield-halved"></i></span> Guildas de Azeroth
+            </a>
+            <a href="/lives" className="menu-item">
+              <span className="icon"><i className="fa-solid fa-video"></i></span> Transmissões ao vivo
+            </a>
             <a href="/settings" className="menu-item">
-              <span className="icon">⚙️</span> Gerenciar Personagens ({characters?.length || 0})
+              <span className="icon"><i className="fa-solid fa-gear"></i></span> Configurações
             </a>
           </nav>
         </aside>

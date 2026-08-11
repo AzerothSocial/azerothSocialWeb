@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { logoutAction } from '@/app/actions/auth'
 import NotificationBell from '@/components/NotificationBell'
@@ -13,6 +14,7 @@ interface UserHeaderProps {
 const DEFAULT_AVATAR = "/images/avatar.png"
 
 export default function UserHeader({ profile }: UserHeaderProps) {
+  const pathname = usePathname()
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [imgSrc, setImgSrc] = useState<string>(profile?.avatar_url || DEFAULT_AVATAR)
 
@@ -30,15 +32,15 @@ export default function UserHeader({ profile }: UserHeaderProps) {
       </div>
       
       <div className="nav-center desktop-only">
-        <Link href="/feed" className="nav-tab" title="Feed Principal">
+        <Link href="/feed" className={`nav-tab ${pathname === '/feed' ? 'active' : ''}`} title="Feed Principal">
           <span className="tab-icon"><i className="fa-solid fa-newspaper"></i></span>
           <span className="tab-label" style={{ fontSize: '0.8rem', fontWeight: 600, marginLeft: '6px' }}>Feed</span>
         </Link>
-        <Link href="/guilds" className="nav-tab" title="Guildas & Recrutamento">
+        <Link href="/guilds" className={`nav-tab ${pathname === '/guilds' ? 'active' : ''}`} title="Guildas & Recrutamento">
           <span className="tab-icon"><i className="fa-solid fa-shield-halved"></i></span>
           <span className="tab-label" style={{ fontSize: '0.8rem', fontWeight: 600, marginLeft: '6px' }}>Guildas</span>
         </Link>
-        <Link href="/lives" className="nav-tab" title="Lives & Transmissões">
+        <Link href="/lives" className={`nav-tab ${pathname === '/lives' ? 'active' : ''}`} title="Lives & Transmissões">
           <span className="tab-icon"><i className="fa-solid fa-circle-play" style={{ color: '#EF4444' }}></i></span>
           <span className="tab-label" style={{ fontSize: '0.8rem', fontWeight: 600, marginLeft: '6px' }}>Lives</span>
         </Link>

@@ -48,18 +48,16 @@ export default async function GuildsPage() {
     .select('*', { count: 'exact', head: true })
     .eq('follower_profile_id', user.id)
 
-  // 5. Lista de Amigos
-  const { data: friendships } = await supabase
-    .from('friendships')
+  // 5. Quem você segue (Follows)
+  const { data: followsData } = await supabase
+    .from('follows')
     .select(`
-      requester_profile_id,
-      addressee_profile_id,
-      profile1:requester_profile_id (id, display_name, username, avatar_url),
-      profile2:addressee_profile_id (id, display_name, username, avatar_url)
+      following_profile_id,
+      following:following_profile_id (id, display_name, username, avatar_url)
     `)
-    .or(`requester_profile_id.eq.${user.id},addressee_profile_id.eq.${user.id}`)
+    .eq('follower_profile_id', user.id)
 
-  const friendsList = friendships?.map(f => f.requester_profile_id === user.id ? f.profile2 : f.profile1).filter(Boolean) || []
+  const friendsList = followsData?.map(f => f.following) || []
   const mainCharacter = characters?.find(c => c.id === profile?.main_character_id) || characters?.[0]
 
   return (
@@ -141,6 +139,9 @@ export default async function GuildsPage() {
             </a>
             <a href="/guilds" className="menu-item active">
               <span className="icon"><i className="fa-solid fa-shield-halved"></i></span> Guildas de Azeroth
+            </a>
+            <a href="/lives" className="menu-item">
+              <span className="icon"><i className="fa-solid fa-video"></i></span> Transmissões ao vivo
             </a>
             <a href="/settings" className="menu-item">
               <span className="icon"><i className="fa-solid fa-gear"></i></span> Configurações
