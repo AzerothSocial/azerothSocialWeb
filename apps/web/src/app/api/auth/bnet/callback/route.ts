@@ -70,6 +70,7 @@ export async function GET(request: Request) {
             race_name: char.playable_race?.name || 'Humano',
             level: char.level || 80,
             faction: char.faction?.type?.toLowerCase() || 'horde',
+            guild_name: char.guild?.name || null,
             visibility: 'public',
             updated_at: new Date().toISOString(),
           })
