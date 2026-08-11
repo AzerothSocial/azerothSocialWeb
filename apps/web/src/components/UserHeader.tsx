@@ -44,6 +44,10 @@ export default function UserHeader({ profile }: UserHeaderProps) {
           <span className="tab-icon"><i className="fa-solid fa-circle-play" style={{ color: '#EF4444' }}></i></span>
           <span className="tab-label" style={{ fontSize: '0.8rem', fontWeight: 600, marginLeft: '6px' }}>Lives</span>
         </Link>
+        {/* <Link href="/builds" className={`nav-tab ${pathname === '/builds' ? 'active' : ''}`} title="Top Builds Meta">
+          <span className="tab-icon"><i className="fa-solid fa-khanda"></i></span>
+          <span className="tab-label" style={{ fontSize: '0.8rem', fontWeight: 600, marginLeft: '6px' }}>Builds</span>
+        </Link> */}
       </div>
 
       <div className="nav-right" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>

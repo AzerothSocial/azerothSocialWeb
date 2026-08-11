@@ -31,7 +31,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: `var whTooltips = {colorLinks: false, iconizeLinks: false, renameLinks: false};` }} />
         <script src="https://wow.zamimg.com/widgets/power.js" async />
       </head>
-      <body className={`${cinzel.variable} ${inter.variable} antialiased bg-[#0F1218] text-[#D8E2EC] font-sans border-box`}>
+      <body className={`${cinzel.variable} ${inter.variable} antialiased bg-[#0F1218] text-[#D8E2EC] font-sans border-box`} suppressHydrationWarning>
         <TransitionProvider>
           {children}
         </TransitionProvider>
