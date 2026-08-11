@@ -149,3 +149,36 @@ export async function deleteCharacterAction(characterId: string) {
   revalidatePath('/feed')
   return { success: true }
 }
+
+export async function toggleFavoriteTransmogAction(characterId: string, isFavorite: boolean) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) return { success: false, error: 'Sessão inválida.' }
+
+  if (isFavorite) {
+    // Check if the user already has 3 favorites
+    const { count, error: countError } = await supabase
+      .from('characters')
+      .select('id', { count: 'exact', head: true })
+      .eq('profile_id', user.id)
+      .eq('is_favorite_transmog', true)
+
+    if (countError) return { success: false, error: countError.message }
+    if (count !== null && count >= 3) {
+      return { success: false, error: 'Você já favoritou 3 transmogs. Desmarque um antes de favoritar outro.' }
+    }
+  }
+
+  const { error } = await supabase
+    .from('characters')
+    .update({ is_favorite_transmog: isFavorite, updated_at: new Date().toISOString() })
+    .eq('id', characterId)
+    .eq('profile_id', user.id)
+
+  if (error) return { success: false, error: error.message }
+
+  revalidatePath('/settings')
+  revalidatePath('/[username]') // To update public profile
+  return { success: true }
+}

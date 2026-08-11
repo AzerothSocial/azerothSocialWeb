@@ -64,6 +64,7 @@ export async function GET(request: Request) {
           charPromises.push((async () => {
             let guildName = null
             let ilevel = 0
+            let renderUrl = null
             try {
               const realmSlug = char.realm?.slug
               const charName = char.name?.toLowerCase()
@@ -76,6 +77,18 @@ export async function GET(request: Request) {
                   const charData = await charRes.json()
                   guildName = charData.guild?.name || null
                   ilevel = charData.equipped_item_level || 0
+                }
+
+                // Busca a renderização 3D do personagem
+                const mediaRes = await fetch(`https://us.api.blizzard.com/profile/wow/character/${realmSlug}/${charName}/character-media?namespace=profile-us&locale=en_US`, {
+                  headers: { 'Authorization': `Bearer ${accessToken}` }
+                })
+                if (mediaRes.ok) {
+                  const mediaData = await mediaRes.json()
+                  const mainRawAsset = mediaData.assets?.find((a: any) => a.key === 'main-raw')
+                  if (mainRawAsset) {
+                    renderUrl = mainRawAsset.value
+                  }
                 }
               }
             } catch (err) {
@@ -94,6 +107,7 @@ export async function GET(request: Request) {
               faction: char.faction?.type?.toLowerCase() || 'horde',
               guild_name: guildName,
               visibility: 'public',
+              render_url: renderUrl,
               updated_at: new Date().toISOString(),
             }
           })())

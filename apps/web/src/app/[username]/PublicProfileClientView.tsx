@@ -17,6 +17,8 @@ interface Character {
   guild_name: string | null
   faction?: string
   visibility: 'public' | 'friends' | 'private'
+  render_url?: string
+  is_favorite_transmog?: boolean
 }
 
 interface PublicMount {
@@ -174,6 +176,61 @@ export default function PublicProfileClientView({
                     {mainCharacter.guild_name && <span style={{ color: '#F5D166', marginLeft: '6px' }}>&lt;{mainCharacter.guild_name}&gt;</span>}
                   </div>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* Vitrine de Transmogs Favoritos */}
+          {characters.filter(c => c.is_favorite_transmog && c.render_url).length > 0 && (
+            <div style={{ marginTop: '32px' }}>
+              <h2 style={{ fontFamily: "'Cinzel', serif", fontWeight: 700, fontSize: '1.2rem', color: '#F5D166', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <i className="fa-solid fa-shirt" style={{ color: '#C89B3C' }}></i> Top Transmogs
+              </h2>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px' }}>
+                {characters.filter(c => c.is_favorite_transmog && c.render_url).slice(0, 3).map(char => (
+                  <div key={`transmog-${char.id}`} style={{
+                    backgroundColor: '#0B0E14',
+                    border: '1px solid #263045',
+                    borderRadius: '12px',
+                    overflow: 'hidden',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.6)'
+                  }}>
+                    <div style={{ 
+                      height: '350px', 
+                      backgroundColor: '#1A1F2C', 
+                      backgroundImage: 'radial-gradient(circle at center, rgba(200, 155, 60, 0.2) 0%, #1A1F2C 100%)', 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center',
+                      position: 'relative',
+                      overflow: 'hidden'
+                    }}>
+                      {/* Pedestal effect */}
+                      <div style={{
+                        position: 'absolute',
+                        bottom: '-10px',
+                        width: '70%',
+                        height: '25px',
+                        background: 'radial-gradient(ellipse at center, rgba(200, 155, 60, 0.4) 0%, transparent 70%)',
+                        filter: 'blur(4px)',
+                        zIndex: 0
+                      }}></div>
+                      <img 
+                        src={char.render_url} 
+                        alt={char.name} 
+                        style={{ height: '95%', width: 'auto', objectFit: 'contain', zIndex: 1, filter: 'drop-shadow(0 10px 15px rgba(0,0,0,0.5))', transform: 'scale(1.8) translateY(-15%)', transformOrigin: 'top center' }}
+                      />
+                    </div>
+                    <div style={{ padding: '12px', borderTop: '1px solid #263045', textAlign: 'center' }}>
+                      <h3 style={{ fontSize: '1rem', fontWeight: 800, color: getClassColor(char.class_name), margin: 0 }}>
+                        {char.name}
+                      </h3>
+                      <p style={{ fontSize: '0.75rem', color: '#64748B', margin: '4px 0 0 0' }}>{char.class_name} · {char.realm}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           )}

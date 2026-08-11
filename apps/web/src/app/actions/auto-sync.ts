@@ -75,8 +75,24 @@ export async function autoSyncCharactersAction() {
         cache: 'no-store'
       })
 
+      let renderUrl = char.render_url;
+
       if (res.ok) {
         const charData = await res.json()
+        
+        // Busca a renderização 3D do personagem
+        const mediaRes = await fetch(`https://us.api.blizzard.com/profile/wow/character/${realmSlug}/${charName}/character-media?namespace=profile-us&locale=en_US`, {
+          headers: { 'Authorization': `Bearer ${accessToken}` },
+          cache: 'no-store'
+        })
+        
+        if (mediaRes.ok) {
+          const mediaData = await mediaRes.json()
+          const mainRawAsset = mediaData.assets?.find((a: any) => a.key === 'main-raw')
+          if (mainRawAsset) {
+            renderUrl = mainRawAsset.value
+          }
+        }
         
         return {
           id: char.id, // Primary key (uuid) para update seguro
@@ -92,6 +108,7 @@ export async function autoSyncCharactersAction() {
           level: charData.level || char.level,
           ilevel: charData.equipped_item_level || char.ilevel || 0,
           guild_name: charData.guild?.name || null,
+          render_url: renderUrl,
           updated_at: new Date().toISOString()
         }
       } else {

@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { setMainCharacterAction, updateCharacterVisibilityAction } from '@/app/actions/character'
-import { updateProfileSettingsAction, uploadAvatarAction } from '@/app/actions/settings'
+import { updateProfileSettingsAction, uploadAvatarAction, toggleFavoriteTransmogAction } from '@/app/actions/settings'
 import { syncBattleNetCharactersAction } from '@/app/actions/bnet-sync'
 import { loginWithBattleNetAction } from '@/app/actions/bnet-oauth'
 import { fetchMainCharacterMountsAction, togglePublicMountAction, MountItem } from '@/app/actions/mounts'
@@ -20,6 +20,8 @@ interface Character {
   guild_name: string | null
   faction?: string
   visibility: 'public' | 'friends' | 'private'
+  render_url?: string
+  is_favorite_transmog?: boolean
 }
 
 interface PublicMount {
@@ -36,7 +38,7 @@ interface SettingsClientViewProps {
 }
 
 export default function SettingsClientView({ profile, initialCharacters, initialPublicMounts = [] }: SettingsClientViewProps) {
-  const [activeTab, setActiveTab] = useState<'profile' | 'characters' | 'mounts'>('characters')
+  const [activeTab, setActiveTab] = useState<'profile' | 'characters' | 'mounts' | 'transmogs'>('characters')
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   // Local state para personagens e personagem principal com atualização instantânea
@@ -234,27 +236,51 @@ export default function SettingsClientView({ profile, initialCharacters, initial
     }
   }
 
+  const handleToggleFavoriteTransmog = async (char: Character) => {
+    const isFavorite = !char.is_favorite_transmog
+
+    // Check local limit before API call
+    if (isFavorite) {
+      const favoritesCount = charactersList.filter(c => c.is_favorite_transmog).length
+      if (favoritesCount >= 3) {
+        alert("Você já favoritou 3 transmogs. Desmarque um antes de favoritar outro.")
+        return
+      }
+    }
+
+    // Optimistic UI update
+    setCharactersList(prev => prev.map(c => c.id === char.id ? { ...c, is_favorite_transmog: isFavorite } : c))
+
+    const res = await toggleFavoriteTransmogAction(char.id, isFavorite)
+    if (!res.success) {
+      // Revert if failed
+      alert(res.error)
+      setCharactersList(prev => prev.map(c => c.id === char.id ? { ...c, is_favorite_transmog: !isFavorite } : c))
+    }
+  }
+
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-      
+
       {/* Banner / Card de Identidade do Campeão */}
       <div style={{ backgroundColor: '#141923', border: '1px solid #C89B3C', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
         <div style={{ height: '100px', background: 'linear-gradient(135deg, #1E1B4B 0%, #311B92 50%, #4A148C 100%)' }}></div>
-        
+
         <div style={{ padding: '0 24px 24px', position: 'relative' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: '-40px', flexWrap: 'wrap', gap: '16px' }}>
             <div style={{ display: 'flex', alignItems: 'flex-end', gap: '16px' }}>
               <div style={{ position: 'relative', width: '80px', height: '80px' }}>
-                <img 
-                  src={avatarUrl || '/images/avatar.png'} 
+                <img
+                  src={avatarUrl || '/images/avatar.png'}
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = '/images/avatar.png'
                   }}
-                  alt="Avatar" 
-                  style={{ width: '80px', height: '80px', borderRadius: '50%', border: '3px solid #C89B3C', objectFit: 'cover', backgroundColor: '#0B0E14' }} 
+                  alt="Avatar"
+                  style={{ width: '80px', height: '80px', borderRadius: '50%', border: '3px solid #C89B3C', objectFit: 'cover', backgroundColor: '#0B0E14' }}
                 />
                 {activeTab === 'profile' && (
-                  <button 
+                  <button
                     onClick={() => fileInputRef.current?.click()}
                     disabled={uploadingAvatar}
                     style={{
@@ -292,7 +318,7 @@ export default function SettingsClientView({ profile, initialCharacters, initial
 
             <div style={{ display: 'flex', gap: '10px' }}>
               {charactersList.length > 0 || profile?.battletag ? (
-                <button 
+                <button
                   onClick={async () => {
                     const res = await loginWithBattleNetAction()
                     if (res?.error) {
@@ -316,15 +342,15 @@ export default function SettingsClientView({ profile, initialCharacters, initial
                     transition: 'all 0.2s ease'
                   }}
                 >
-                  <img 
-                    src="https://wow.zamimg.com/images/zul/icons/for-buttons/battlenet-logo.svg" 
-                    alt="Battle.net Logo" 
-                    style={{ width: '18px', height: '18px', display: 'block' }} 
+                  <img
+                    src="https://wow.zamimg.com/images/zul/icons/for-buttons/battlenet-logo.svg"
+                    alt="Battle.net Logo"
+                    style={{ width: '18px', height: '18px', display: 'block' }}
                   />
                   Conta vinculada
                 </button>
               ) : (
-                <button 
+                <button
                   onClick={async () => {
                     const res = await loginWithBattleNetAction()
                     if (res?.error) {
@@ -347,10 +373,10 @@ export default function SettingsClientView({ profile, initialCharacters, initial
                     transition: 'all 0.2s ease'
                   }}
                 >
-                  <img 
-                    src="https://wow.zamimg.com/images/zul/icons/for-buttons/battlenet-logo.svg" 
-                    alt="Battle.net Logo" 
-                    style={{ width: '18px', height: '18px', display: 'block' }} 
+                  <img
+                    src="https://wow.zamimg.com/images/zul/icons/for-buttons/battlenet-logo.svg"
+                    alt="Battle.net Logo"
+                    style={{ width: '18px', height: '18px', display: 'block' }}
                   />
                   Sincronizar Conta Battle.net
                 </button>
@@ -364,7 +390,7 @@ export default function SettingsClientView({ profile, initialCharacters, initial
 
           {/* Abas de Navegação */}
           <div style={{ display: 'flex', gap: '12px', marginTop: '20px', borderBottom: '1px solid #263045', paddingBottom: '2px' }}>
-            <button 
+            <button
               onClick={() => setActiveTab('characters')}
               style={{
                 fontFamily: "'Cinzel', serif",
@@ -382,7 +408,7 @@ export default function SettingsClientView({ profile, initialCharacters, initial
             >
               <i className="fa-regular fa-chess-knight" style={{ marginRight: '6px' }}></i> Personagens ({charactersList.length})
             </button>
-            <button 
+            <button
               onClick={() => setActiveTab('mounts')}
               style={{
                 fontFamily: "'Cinzel', serif",
@@ -400,7 +426,7 @@ export default function SettingsClientView({ profile, initialCharacters, initial
             >
               <i className="fa-solid fa-horse" style={{ marginRight: '6px' }}></i> Montarias ({publicMountsList.length})
             </button>
-            <button 
+            <button
               onClick={() => setActiveTab('profile')}
               style={{
                 fontFamily: "'Cinzel', serif",
@@ -417,6 +443,24 @@ export default function SettingsClientView({ profile, initialCharacters, initial
               }}
             >
               <i className="fa-solid fa-gear" style={{ marginRight: '6px' }}></i> Configurações do Perfil
+            </button>
+            <button
+              onClick={() => setActiveTab('transmogs')}
+              style={{
+                fontFamily: "'Cinzel', serif",
+                fontSize: '0.85rem',
+                fontWeight: 700,
+                padding: '8px 16px',
+                borderRadius: '8px 8px 0 0',
+                border: 'none',
+                borderBottom: activeTab === 'transmogs' ? '2px solid #C89B3C' : '2px solid transparent',
+                color: activeTab === 'transmogs' ? '#F5D166' : '#94A3B8',
+                backgroundColor: activeTab === 'transmogs' ? 'rgba(200, 155, 60, 0.1)' : 'transparent',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              <i className="fa-solid fa-shirt" style={{ marginRight: '6px' }}></i> Transmogs
             </button>
           </div>
         </div>
@@ -451,92 +495,92 @@ export default function SettingsClientView({ profile, initialCharacters, initial
               <div className="characters-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '16px' }}>
                 {sortedCharacters.map((char) => {
                   const isMain = char.id === mainCharId
-                return (
-                  <div 
-                    key={char.id} 
-                    style={{ 
-                      backgroundColor: '#0B0E14', 
-                      border: isMain ? '1px solid #C89B3C' : '1px solid #263045', 
-                      borderRadius: '12px', 
-                      padding: '16px', 
-                      position: 'relative',
-                      boxShadow: isMain ? '0 0 15px rgba(200, 155, 60, 0.2)' : 'none'
-                    }}
-                  >
-                    {isMain && (
-                      <span style={{ position: 'absolute', top: '-10px', right: '12px', backgroundColor: '#C89B3C', color: '#000', fontSize: '0.65rem', fontWeight: 800, padding: '2px 8px', borderRadius: '4px' }}>
-                        ★ PRINCIPAL
-                      </span>
-                    )}
+                  return (
+                    <div
+                      key={char.id}
+                      style={{
+                        backgroundColor: '#0B0E14',
+                        border: isMain ? '1px solid #C89B3C' : '1px solid #263045',
+                        borderRadius: '12px',
+                        padding: '16px',
+                        position: 'relative',
+                        boxShadow: isMain ? '0 0 15px rgba(200, 155, 60, 0.2)' : 'none'
+                      }}
+                    >
+                      {isMain && (
+                        <span style={{ position: 'absolute', top: '-10px', right: '12px', backgroundColor: '#C89B3C', color: '#000', fontSize: '0.65rem', fontWeight: 800, padding: '2px 8px', borderRadius: '4px' }}>
+                          ★ PRINCIPAL
+                        </span>
+                      )}
 
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                      <span style={{ color: getClassColor(char.class_name), fontWeight: 700, fontSize: '1.05rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                        <img 
-                          src={char.faction === 'alliance' ? 'https://assets-bwa.worldofwarcraft.blizzard.com/dab2428aa2f51e140c9a.png' : 'https://assets-bwa.worldofwarcraft.blizzard.com/3edbc547ab318bd385b2.png'} 
-                          alt={char.faction === 'alliance' ? 'Aliança' : 'Horda'} 
-                          style={{ width: '18px', height: '18px', objectFit: 'contain' }} 
-                        />
-                        {char.name}
-                      </span>
-                      <span style={{ fontSize: '0.78rem', color: '#CBD5E1' }}>Lvl {char.level} {char.ilevel ? `(ilvl ${char.ilevel})` : ''}</span>
-                    </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                        <span style={{ color: getClassColor(char.class_name), fontWeight: 700, fontSize: '1.05rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <img
+                            src={char.faction === 'alliance' ? 'https://assets-bwa.worldofwarcraft.blizzard.com/dab2428aa2f51e140c9a.png' : 'https://assets-bwa.worldofwarcraft.blizzard.com/3edbc547ab318bd385b2.png'}
+                            alt={char.faction === 'alliance' ? 'Aliança' : 'Horda'}
+                            style={{ width: '18px', height: '18px', objectFit: 'contain' }}
+                          />
+                          {char.name}
+                        </span>
+                        <span style={{ fontSize: '0.78rem', color: '#CBD5E1' }}>Lvl {char.level} {char.ilevel ? `(ilvl ${char.ilevel})` : ''}</span>
+                      </div>
 
-                    <p style={{ fontSize: '0.8rem', color: '#94A3B8', marginBottom: '4px' }}>
-                      {char.class_name} · {char.realm} ({char.region})
-                    </p>
-                    <p style={{ fontSize: '0.8rem', color: '#94A3B8', marginBottom: '14px' }}>
-                      Guilda: <strong style={{ color: '#F5D166' }}>{char.guild_name ? `<${char.guild_name}>` : 'Nenhuma'}</strong>
-                    </p>
+                      <p style={{ fontSize: '0.8rem', color: '#94A3B8', marginBottom: '4px' }}>
+                        {char.class_name} · {char.realm} ({char.region})
+                      </p>
+                      <p style={{ fontSize: '0.8rem', color: '#94A3B8', marginBottom: '14px' }}>
+                        Guilda: <strong style={{ color: '#F5D166' }}>{char.guild_name ? `<${char.guild_name}>` : 'Nenhuma'}</strong>
+                      </p>
 
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', paddingTop: '10px', borderTop: '1px solid #263045', fontSize: '0.75rem' }}>
-                      <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                        {!isMain && (
-                          <button 
-                            onClick={() => handleSetMain(char.id)}
-                            title="Tornar Principal"
-                            style={{ 
-                              background: 'none', 
-                              border: 'none', 
-                              color: '#C89B3C', 
-                              cursor: 'pointer', 
-                              fontSize: '0.95rem', 
+                      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', paddingTop: '10px', borderTop: '1px solid #263045', fontSize: '0.75rem' }}>
+                        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                          {!isMain && (
+                            <button
+                              onClick={() => handleSetMain(char.id)}
+                              title="Tornar Principal"
+                              style={{
+                                background: 'none',
+                                border: 'none',
+                                color: '#C89B3C',
+                                cursor: 'pointer',
+                                fontSize: '0.95rem',
+                                padding: '2px 6px',
+                                transition: 'color 0.2s ease'
+                              }}
+                            >
+                              <i className="fa-solid fa-star"></i>
+                            </button>
+                          )}
+                          <button
+                            key={`vis-btn-${char.id}-${char.visibility}`}
+                            onClick={() => handleToggleVisibility(char.id, char.visibility)}
+                            title={char.visibility === 'private' ? 'Tornar público' : 'Ocultar'}
+                            style={{
+                              background: 'none',
+                              border: 'none',
+                              color: char.visibility === 'private' ? '#64748B' : '#10B981',
+                              cursor: 'pointer',
+                              fontSize: '0.95rem',
                               padding: '2px 6px',
                               transition: 'color 0.2s ease'
                             }}
                           >
-                            <i className="fa-solid fa-star"></i>
+                            {char.visibility === 'private' ? (
+                              <i key={`icon-slash-${char.id}`} className="fa-solid fa-eye-slash"></i>
+                            ) : (
+                              <i key={`icon-eye-${char.id}`} className="fa-solid fa-eye"></i>
+                            )}
                           </button>
-                        )}
-                        <button 
-                          key={`vis-btn-${char.id}-${char.visibility}`}
-                          onClick={() => handleToggleVisibility(char.id, char.visibility)}
-                          title={char.visibility === 'private' ? 'Tornar público' : 'Ocultar'}
-                          style={{ 
-                            background: 'none', 
-                            border: 'none', 
-                            color: char.visibility === 'private' ? '#64748B' : '#10B981', 
-                            cursor: 'pointer', 
-                            fontSize: '0.95rem',
-                            padding: '2px 6px',
-                            transition: 'color 0.2s ease'
-                          }}
-                        >
-                          {char.visibility === 'private' ? (
-                            <i key={`icon-slash-${char.id}`} className="fa-solid fa-eye-slash"></i>
-                          ) : (
-                            <i key={`icon-eye-${char.id}`} className="fa-solid fa-eye"></i>
-                          )}
-                        </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )
-              })}
-            </div>
-          )}
-        </div>
-      )
-    })()}
+                  )
+                })}
+              </div>
+            )}
+          </div>
+        )
+      })()}
 
       {/* ABA: MONTARIAS */}
       {activeTab === 'mounts' && (
@@ -558,20 +602,20 @@ export default function SettingsClientView({ profile, initialCharacters, initial
                 </div>
 
                 <div style={{ position: 'relative', minWidth: '240px' }}>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     value={mountSearchQuery}
                     onChange={(e) => setMountSearchQuery(e.target.value)}
-                    placeholder="🔍 Buscar montaria por nome..." 
-                    style={{ 
-                      width: '100%', 
-                      backgroundColor: '#0B0E14', 
-                      border: '1px solid #263045', 
-                      borderRadius: '8px', 
-                      padding: '8px 12px', 
-                      fontSize: '0.82rem', 
-                      color: '#F0F4F8', 
-                      outline: 'none' 
+                    placeholder="🔍 Buscar montaria por nome..."
+                    style={{
+                      width: '100%',
+                      backgroundColor: '#0B0E14',
+                      border: '1px solid #263045',
+                      borderRadius: '8px',
+                      padding: '8px 12px',
+                      fontSize: '0.82rem',
+                      color: '#F0F4F8',
+                      outline: 'none'
                     }}
                   />
                 </div>
@@ -586,7 +630,7 @@ export default function SettingsClientView({ profile, initialCharacters, initial
               {mountsError && (
                 <div style={{ padding: '20px', backgroundColor: 'rgba(239, 68, 68, 0.1)', border: '1px solid #EF4444', borderRadius: '12px', color: '#FCA5A5', fontSize: '0.88rem', textAlign: 'center' }}>
                   <p>{mountsError}</p>
-                  <button 
+                  <button
                     onClick={() => { setMountsData(null); }}
                     style={{ marginTop: '10px', backgroundColor: '#EF4444', color: '#FFF', border: 'none', borderRadius: '6px', padding: '6px 14px', fontSize: '0.78rem', cursor: 'pointer', fontWeight: 600 }}
                   >
@@ -616,7 +660,7 @@ export default function SettingsClientView({ profile, initialCharacters, initial
                       const isPublic = publicMountsList.some(pm => pm.mount_id === m.id)
 
                       return (
-                        <div 
+                        <div
                           key={m.id}
                           style={{
                             backgroundColor: '#0B0E14',
@@ -633,9 +677,9 @@ export default function SettingsClientView({ profile, initialCharacters, initial
                           <div>
                             <div style={{ width: '100%', height: '120px', borderRadius: '8px', overflow: 'hidden', backgroundColor: '#141923', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                               {m.render?.url ? (
-                                <img 
-                                  src={m.render.url} 
-                                  alt={m.name} 
+                                <img
+                                  src={m.render.url}
+                                  alt={m.name}
                                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                 />
                               ) : (
@@ -690,6 +734,99 @@ export default function SettingsClientView({ profile, initialCharacters, initial
         </div>
       )}
 
+      {/* ABA: TRANSMOGS */}
+      {activeTab === 'transmogs' && (
+        <div style={{ backgroundColor: '#141923', border: '1px solid #263045', borderRadius: '16px', padding: '24px' }}>
+          <h2 style={{ fontFamily: "'Cinzel', serif", fontWeight: 700, fontSize: '1.1rem', color: '#F5D166', marginBottom: '8px' }}>
+            Top 3 Transmogs
+          </h2>
+          <p style={{ color: '#94A3B8', fontSize: '0.85rem', marginBottom: '24px' }}>
+            Selecione até 3 personagens para exibir suas aparências no seu perfil público. As imagens são sincronizadas diretamente do jogo.
+          </p>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
+            {charactersList.filter(c => c.render_url).map(char => (
+              <div
+                key={char.id}
+                style={{
+                  backgroundColor: '#0B0E14',
+                  border: char.is_favorite_transmog ? '2px solid #C89B3C' : '1px solid #263045',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  position: 'relative',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  transition: 'all 0.2s ease',
+                  boxShadow: char.is_favorite_transmog ? '0 0 15px rgba(200, 155, 60, 0.2)' : 'none'
+                }}
+              >
+                {char.is_favorite_transmog && (
+                  <div style={{
+                    position: 'absolute',
+                    top: 12,
+                    right: 12,
+                    backgroundColor: '#C89B3C',
+                    color: '#000',
+                    width: 24,
+                    height: 24,
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    zIndex: 2,
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.5)'
+                  }}>
+                    <i className="fa-solid fa-star" style={{ fontSize: '10px' }}></i>
+                  </div>
+                )}
+
+                <div style={{ height: '300px', backgroundColor: '#1A1F2C', backgroundImage: 'radial-gradient(circle at center, #2A3142 0%, #1A1F2C 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                  <img
+                    src={char.render_url}
+                    alt={`Render de ${char.name}`}
+                    style={{ height: '100%', width: 'auto', objectFit: 'contain', transform: 'scale(2) translateY(-25%)', transformOrigin: 'top center' }}
+                  />
+                </div>
+
+                <div style={{ padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #263045' }}>
+                  <div>
+                    <h3 style={{ fontSize: '1rem', fontWeight: 'bold', color: getClassColor(char.class_name), margin: 0 }}>
+                      {char.name}
+                    </h3>
+                    <p style={{ fontSize: '0.75rem', color: '#64748B', margin: '4px 0 0 0' }}>{char.realm}</p>
+                  </div>
+
+                  <button
+                    onClick={() => handleToggleFavoriteTransmog(char)}
+                    style={{
+                      backgroundColor: char.is_favorite_transmog ? 'rgba(200, 155, 60, 0.1)' : '#1E293B',
+                      color: char.is_favorite_transmog ? '#F5D166' : '#94A3B8',
+                      border: char.is_favorite_transmog ? '1px solid #C89B3C' : '1px solid #334155',
+                      borderRadius: '6px',
+                      padding: '6px 12px',
+                      fontSize: '0.75rem',
+                      cursor: 'pointer',
+                      fontWeight: 'bold',
+                      transition: 'all 0.2s'
+                    }}
+                  >
+                    {char.is_favorite_transmog ? 'Remover' : 'Favoritar'}
+                  </button>
+                </div>
+              </div>
+            ))}
+
+            {charactersList.filter(c => c.render_url).length === 0 && (
+              <div style={{ gridColumn: '1 / -1', padding: '40px', textAlign: 'center', backgroundColor: '#0B0E14', borderRadius: '12px', border: '1px dashed #263045' }}>
+                <i className="fa-solid fa-image" style={{ fontSize: '3rem', color: '#334155', marginBottom: '16px' }}></i>
+                <p style={{ color: '#94A3B8' }}>Nenhuma renderização 3D encontrada.</p>
+                <p style={{ color: '#64748B', fontSize: '0.8rem', marginTop: '8px' }}>Certifique-se de sincronizar sua conta da Blizzard para atualizar as imagens.</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* ABA: CONFIGURAÇÕES DO PERFIL */}
       {activeTab === 'profile' && (
         <div style={{ backgroundColor: '#141923', border: '1px solid #263045', borderRadius: '16px', padding: '24px' }}>
@@ -698,11 +835,11 @@ export default function SettingsClientView({ profile, initialCharacters, initial
           </h2>
 
           {profileMsg && (
-            <div style={{ 
-              padding: '12px', 
-              marginBottom: '16px', 
-              fontSize: '0.85rem', 
-              borderRadius: '8px', 
+            <div style={{
+              padding: '12px',
+              marginBottom: '16px',
+              fontSize: '0.85rem',
+              borderRadius: '8px',
               border: profileMsg.type === 'success' ? '1px solid #10B981' : '1px solid #EF4444',
               backgroundColor: profileMsg.type === 'success' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)',
               color: profileMsg.type === 'success' ? '#A7F3D0' : '#FCA5A5'
@@ -712,10 +849,10 @@ export default function SettingsClientView({ profile, initialCharacters, initial
           )}
 
           <form onSubmit={handleUpdateProfile} style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '540px' }}>
-            
+
             {/* Input Escondido de Upload de Imagem */}
-            <input 
-              type="file" 
+            <input
+              type="file"
               ref={fileInputRef}
               accept="image/png, image/jpeg, image/jpg, image/webp"
               onChange={handleAvatarFileSelect}
@@ -727,12 +864,12 @@ export default function SettingsClientView({ profile, initialCharacters, initial
               <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', color: '#C89B3C', marginBottom: '8px', fontFamily: "'Cinzel', serif" }}>
                 Foto de Avatar (Upload de Arquivo)
               </label>
-              
+
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                <img 
-                  src={avatarUrl} 
-                  alt="Preview" 
-                  style={{ width: '64px', height: '64px', borderRadius: '50%', border: '2px solid #C89B3C', objectFit: 'cover' }} 
+                <img
+                  src={avatarUrl}
+                  alt="Preview"
+                  style={{ width: '64px', height: '64px', borderRadius: '50%', border: '2px solid #C89B3C', objectFit: 'cover' }}
                 />
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
@@ -756,8 +893,8 @@ export default function SettingsClientView({ profile, initialCharacters, initial
               <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', color: '#C89B3C', marginBottom: '6px', fontFamily: "'Cinzel', serif" }}>
                 Nome de Apresentação
               </label>
-              <input 
-                type="text" 
+              <input
+                type="text"
                 required
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
@@ -769,7 +906,7 @@ export default function SettingsClientView({ profile, initialCharacters, initial
               <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', color: '#C89B3C', marginBottom: '6px', fontFamily: "'Cinzel', serif" }}>
                 Biografia / Slogan da Taverna
               </label>
-              <textarea 
+              <textarea
                 rows={3}
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
@@ -778,7 +915,7 @@ export default function SettingsClientView({ profile, initialCharacters, initial
               ></textarea>
             </div>
 
-            <button 
+            <button
               type="submit"
               disabled={profileLoading || uploadingAvatar}
               className="wow-btn-gold"
@@ -798,7 +935,7 @@ export default function SettingsClientView({ profile, initialCharacters, initial
               <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: '1.2rem', fontWeight: 700, color: '#60A5FA' }}>
                 🌐 Importar Personagens via Battle.net
               </h3>
-              <button 
+              <button
                 onClick={() => setShowBnetModal(false)}
                 style={{ background: 'none', border: 'none', color: '#94A3B8', fontSize: '1.2rem', cursor: 'pointer' }}
               >
@@ -817,7 +954,7 @@ export default function SettingsClientView({ profile, initialCharacters, initial
             )}
 
             <form onSubmit={handleBnetSyncSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-              <textarea 
+              <textarea
                 rows={8}
                 value={bnetJsonInput}
                 onChange={(e) => setBnetJsonInput(e.target.value)}
@@ -826,14 +963,14 @@ export default function SettingsClientView({ profile, initialCharacters, initial
               ></textarea>
 
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   onClick={() => setShowBnetModal(false)}
                   style={{ padding: '8px 16px', backgroundColor: '#263045', color: '#CBD5E1', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '0.82rem' }}
                 >
                   Cancelar
                 </button>
-                <button 
+                <button
                   type="submit"
                   disabled={bnetSyncLoading}
                   style={{ padding: '8px 20px', backgroundColor: '#3B82F6', color: '#FFF', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 700, fontSize: '0.82rem', boxShadow: '0 0 15px rgba(59, 130, 246, 0.5)' }}
