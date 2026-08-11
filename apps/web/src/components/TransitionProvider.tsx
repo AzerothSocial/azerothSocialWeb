@@ -1,21 +1,26 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode, Suspense } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 const TransitionContext = createContext({
   isPending: false,
 });
 
-export function TransitionProvider({ children }: { children: ReactNode }) {
-  const [isPending, setIsPending] = useState(false);
+function RouteChangeListener({ setIsPending }: { setIsPending: (v: boolean) => void }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   // Reseta o estado de loading quando a rota muda (conclusão da navegação)
   useEffect(() => {
     setIsPending(false);
-  }, [pathname, searchParams]);
+  }, [pathname, searchParams, setIsPending]);
+
+  return null;
+}
+
+export function TransitionProvider({ children }: { children: ReactNode }) {
+  const [isPending, setIsPending] = useState(false);
 
   // Intercepta todos os cliques em links localmente para aplicar o efeito
   useEffect(() => {
@@ -47,6 +52,10 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
 
   return (
     <TransitionContext.Provider value={{ isPending }}>
+      <Suspense fallback={null}>
+        <RouteChangeListener setIsPending={setIsPending} />
+      </Suspense>
+      
       {/* Container global com animação de CSS */}
       <div 
         className="transition-wrapper"
