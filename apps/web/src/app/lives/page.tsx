@@ -110,7 +110,7 @@ export default async function LivesPage({
                           {mainCharacter.name}
                         </span>
                         <span className="char-lvl" style={{ fontSize: '0.8rem', color: '#CBD5E1', fontWeight: 700 }}>
-                          {mainCharacter.level}
+                          Lvl {mainCharacter.level}{mainCharacter.ilevel ? ` (${mainCharacter.ilevel})` : ''}
                         </span>
                       </div>
                       <div className="char-sub">{mainCharacter.class_name} · {mainCharacter.realm} ({mainCharacter.region})</div>

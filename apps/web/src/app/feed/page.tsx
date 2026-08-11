@@ -82,7 +82,7 @@ export default async function FeedPage({
     .select(`
       *,
       profiles:author_profile_id (display_name, username, avatar_url),
-      characters:character_id (name, class_name, faction),
+      characters:character_id (name, class_name, faction, ilevel),
       post_likes (profile_id),
       comments (id, content, created_at, profiles:author_profile_id(display_name, username, avatar_url))
     `)

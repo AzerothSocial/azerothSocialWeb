@@ -80,6 +80,7 @@ export async function syncBattleNetCharactersAction(characters: BnetCharacterInp
       class_name: classNameTranslated,
       race_name: raceName,
       level: char.level || 80,
+      ilevel: 0,
       guild_name: guildName,
       faction: factionSlug,
       visibility: 'public',

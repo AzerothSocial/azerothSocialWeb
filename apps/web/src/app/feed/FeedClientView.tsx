@@ -20,6 +20,7 @@ interface Character {
   class_name: string
   race_name: string
   level: number
+  ilevel?: number
   guild_name: string | null
   visibility: 'public' | 'friends' | 'private'
 }
@@ -227,7 +228,7 @@ export default function FeedClientView({
               return a.name.localeCompare(b.name)
             }).map((char) => (
               <option key={char.id} value={char.id}>
-                Publicar via {char.name} ({char.class_name} Lvl {char.level})
+                Publicar via {char.name} ({char.class_name} Lvl {char.level}{char.ilevel ? ` - ilvl ${char.ilevel}` : ''})
               </option>
             ))}
           </select>

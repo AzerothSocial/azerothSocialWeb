@@ -16,6 +16,7 @@ interface Character {
   class_name: string
   race_name: string
   level: number
+  ilevel?: number
   guild_name: string | null
   faction?: string
   visibility: 'public' | 'friends' | 'private'
@@ -473,7 +474,7 @@ export default function SettingsClientView({ profile, initialCharacters, initial
                         />
                         {char.name}
                       </span>
-                      <span style={{ fontSize: '0.78rem', color: '#CBD5E1' }}>Lvl {char.level}</span>
+                      <span style={{ fontSize: '0.78rem', color: '#CBD5E1' }}>Lvl {char.level} {char.ilevel ? `(ilvl ${char.ilevel})` : ''}</span>
                     </div>
 
                     <p style={{ fontSize: '0.8rem', color: '#94A3B8', marginBottom: '4px' }}>

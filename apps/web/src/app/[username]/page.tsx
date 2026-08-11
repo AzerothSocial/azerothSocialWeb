@@ -93,7 +93,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
     .select(`
       *,
       profiles:author_profile_id (display_name, username, avatar_url),
-      characters:character_id (name, class_name, level, realm, region, faction),
+      characters:character_id (name, class_name, level, ilevel, realm, region, faction),
       likes:post_likes (count),
       comments (
         id, 

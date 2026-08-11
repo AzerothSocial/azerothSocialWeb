@@ -63,6 +63,7 @@ export async function GET(request: Request) {
         for (const char of account.characters || []) {
           charPromises.push((async () => {
             let guildName = null
+            let ilevel = 0
             try {
               const realmSlug = char.realm?.slug
               const charName = char.name?.toLowerCase()
@@ -74,6 +75,7 @@ export async function GET(request: Request) {
                 if (charRes.ok) {
                   const charData = await charRes.json()
                   guildName = charData.guild?.name || null
+                  ilevel = charData.equipped_item_level || 0
                 }
               }
             } catch (err) {
@@ -88,6 +90,7 @@ export async function GET(request: Request) {
               class_name: char.playable_class?.name || 'Paladino',
               race_name: char.playable_race?.name || 'Humano',
               level: char.level || 80,
+              ilevel: ilevel,
               faction: char.faction?.type?.toLowerCase() || 'horde',
               guild_name: guildName,
               visibility: 'public',
