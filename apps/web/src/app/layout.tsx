@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cinzel, Inter } from "next/font/google";
 import "./globals.css";
+import { TransitionProvider } from "@/components/TransitionProvider";
 
 const cinzel = Cinzel({
   variable: "--font-cinzel",
@@ -29,7 +30,9 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
       </head>
       <body className={`${cinzel.variable} ${inter.variable} antialiased bg-[#0F1218] text-[#D8E2EC] font-sans border-box`}>
-        {children}
+        <TransitionProvider>
+          {children}
+        </TransitionProvider>
       </body>
     </html>
   );
