@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { logoutAction } from '@/app/actions/auth'
 import NotificationBell from '@/components/NotificationBell'
+import { autoSyncCharactersAction } from '@/app/actions/auto-sync'
 
 interface UserHeaderProps {
   profile: any
@@ -14,6 +15,11 @@ const DEFAULT_AVATAR = "/images/avatar.png"
 export default function UserHeader({ profile }: UserHeaderProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [imgSrc, setImgSrc] = useState<string>(profile?.avatar_url || DEFAULT_AVATAR)
+
+  useEffect(() => {
+    // Sincronização automática em background sem bloquear a UI
+    autoSyncCharactersAction().catch(e => console.error('Erro no auto-sync:', e))
+  }, [])
 
   return (
     <header className="top-nav">
