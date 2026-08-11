@@ -57,25 +57,47 @@ export async function GET(request: Request) {
     if (profileRes.ok) {
       const profileData = await profileRes.json()
       const wowAccounts = profileData.wow_accounts || []
-      const importedChars: any[] = []
+      const charPromises = []
 
       for (const account of wowAccounts) {
         for (const char of account.characters || []) {
-          importedChars.push({
-            profile_id: user.id,
-            name: char.name,
-            realm: char.realm?.name || 'Azralon',
-            region: 'US',
-            class_name: char.playable_class?.name || 'Paladino',
-            race_name: char.playable_race?.name || 'Humano',
-            level: char.level || 80,
-            faction: char.faction?.type?.toLowerCase() || 'horde',
-            guild_name: char.guild?.name || null,
-            visibility: 'public',
-            updated_at: new Date().toISOString(),
-          })
+          charPromises.push((async () => {
+            let guildName = null
+            try {
+              const realmSlug = char.realm?.slug
+              const charName = char.name?.toLowerCase()
+              if (realmSlug && charName) {
+                // Busca o perfil detalhado do personagem para obter a guilda
+                const charRes = await fetch(`https://us.api.blizzard.com/profile/wow/character/${realmSlug}/${charName}?namespace=profile-us&locale=en_US`, {
+                  headers: { 'Authorization': `Bearer ${accessToken}` }
+                })
+                if (charRes.ok) {
+                  const charData = await charRes.json()
+                  guildName = charData.guild?.name || null
+                }
+              }
+            } catch (err) {
+              console.error(`Erro ao buscar detalhes do personagem ${char.name}:`, err)
+            }
+
+            return {
+              profile_id: user.id,
+              name: char.name,
+              realm: char.realm?.name || 'Azralon',
+              region: 'US',
+              class_name: char.playable_class?.name || 'Paladino',
+              race_name: char.playable_race?.name || 'Humano',
+              level: char.level || 80,
+              faction: char.faction?.type?.toLowerCase() || 'horde',
+              guild_name: guildName,
+              visibility: 'public',
+              updated_at: new Date().toISOString(),
+            }
+          })())
         }
       }
+
+      const importedChars = await Promise.all(charPromises)
 
       if (importedChars.length > 0) {
         await supabase.from('characters').upsert(importedChars, {
