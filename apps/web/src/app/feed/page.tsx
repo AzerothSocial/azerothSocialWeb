@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import FeedClientView from './FeedClientView'
 import UserHeader from '@/components/UserHeader'
+import FollowSuggestionButton from '@/components/FollowSuggestionButton'
 import { getClassColor } from '@/lib/wow-colors'
 import Link from 'next/link'
 
@@ -209,7 +210,7 @@ export default async function FeedPage({
               <span className="online-indicator"></span> Sincronizado
             </div>
             <a href="/addon-preview" className="btn-addon-shortcut">
-              Abrir Simulação do Addon ↗
+              Abrir Simulação do Addon <i className="fa-solid fa-gamepad"></i>
             </a>
           </div>
 
@@ -221,7 +222,7 @@ export default async function FeedPage({
               </div>
               <ul className="friends-list" style={{ marginTop: '10px' }}>
                 {suggestedPlayers.map((player) => (
-                  <li key={player.id} className="friend-item" style={{ marginBottom: '12px', alignItems: 'center' }}>
+                  <li key={player.id} className="friend-item" style={{ marginBottom: '12px', alignItems: 'center', display: 'flex', gap: '8px' }}>
                     <Link prefetch={false} href={`/@${player.username}`} style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, textDecoration: 'none', color: 'inherit' }}>
                       <div className="avatar-wrapper" style={{ width: '32px', height: '32px' }}>
                         <img src={player.avatar_url || "/images/avatar.png"} alt="Avatar" style={{ borderRadius: '4px', width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -231,6 +232,7 @@ export default async function FeedPage({
                         <span className="friend-playing" style={{ fontSize: '0.7rem' }}>@{player.username}</span>
                       </div>
                     </Link>
+                    <FollowSuggestionButton targetUserId={player.id} />
                   </li>
                 ))}
               </ul>
@@ -240,7 +242,7 @@ export default async function FeedPage({
           {/* Quem você segue (Follows) */}
           <div className="widget-box">
             <div className="widget-header">
-              <h4> Seguindo ({friendsList.length})</h4>
+              <h4><i className="fa-solid fa-user-group"></i> Seguindo ({friendsList.length})</h4>
             </div>
             {friendsList.length === 0 ? (
               <p className="text-xs text-slate-400">Você ainda não segue ninguém.</p>

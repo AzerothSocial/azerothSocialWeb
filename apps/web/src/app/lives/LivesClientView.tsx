@@ -177,7 +177,7 @@ export default function LivesClientView({
           <div className="absolute -top-10 -right-10 w-24 h-24 bg-red-600/20 rounded-full blur-xl pointer-events-none"></div>
 
           <div className="status-header">
-            <span className="status-icon bg-red-950/50 text-red-500 border-red-900"><i className="fa-solid fa-tower-broadcast"></i></span>
+            <span className="status-icon text-red-500 border-red-900"><i className="fa-solid fa-tower-broadcast"></i></span>
             <h4 className="text-red-400">Promover Transmissão</h4>
           </div>
           <p className="status-desc text-slate-300">Aumente sua audiência promovendo seu canal para jogadores de Azeroth.</p>
@@ -263,8 +263,8 @@ export default function LivesClientView({
                         key={id}
                         onClick={() => setNewLive({ ...newLive, platform: id })}
                         className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition cursor-pointer font-bold text-xs ${selected
-                            ? `${brandColor} shadow-lg shadow-black/50`
-                            : 'bg-[#0B0E14] border-[#263045] text-slate-400 hover:border-slate-600'
+                          ? `${brandColor} shadow-lg shadow-black/50`
+                          : 'bg-[#0B0E14] border-[#263045] text-slate-400 hover:border-slate-600'
                           }`}
                       >
                         <i className={`fa-brands ${icon} text-lg`}></i>
